@@ -6,7 +6,8 @@
         <link rel="stylesheet" href="style.css" />
         <link rel="icon" href="img/favicon.png" type="image/x-icon" />
         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>  
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script> 
+         
         <title>Lino | Betano</title>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
     </head>
@@ -666,6 +667,7 @@ const chartData = {
 };
 
 // Inicializando o gráfico
+// Inicializando o gráfico
 const myChart = new Chart(ctx, {
     type: 'line',
     data: chartData,
@@ -674,18 +676,18 @@ const myChart = new Chart(ctx, {
             y: {
                 position: 'right',
                 ticks: {
-                    stepSize: 10,
+                    stepSize: 5, // Define o intervalo dos ticks no eixo Y
                     color: 'white'
                 },
                 grid: {
-                    color: 'rgba(255, 255, 255, 0.5)',
-                    drawBorder: false
+                    color: 'rgba(255, 255, 255, 0.5)', // Cor das linhas de grade
+                    drawBorder: false,
+                    lineWidth: 1 // Espessura da linha de grade
                 },
-
             },
             x: {
                 grid: {
-                    color: 'rgba(0, 0, 0, 0)'
+                    color: 'rgba(0, 0, 0, 0)' // Torna a grade do eixo X invisível
                 },
                 ticks: {
                     color: 'white'
@@ -713,6 +715,7 @@ const myChart = new Chart(ctx, {
         }
     }
 });
+
 
 
 // Atualiza o gráfico com dados da API a cada 5 segundos
@@ -936,7 +939,7 @@ async function updateGolsChart() {
         }
         
         const totalGols = golsA + golsB;
-        console.log(`Placar: ${item.ft}, Total de Gols: ${totalGols}`);
+        //console.log(`Placar: ${item.ft}, Total de Gols: ${totalGols}`);
 
         return totalGols === 0 ? 0.5 : totalGols;
     });
