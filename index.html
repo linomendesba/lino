@@ -666,7 +666,7 @@ const chartData = {
     ]
 };
 
-// Inicializando o gráfico
+
 // Inicializando o gráfico
 const myChart = new Chart(ctx, {
     type: 'line',
@@ -690,7 +690,9 @@ const myChart = new Chart(ctx, {
                     color: 'rgba(0, 0, 0, 0)' // Torna a grade do eixo X invisível
                 },
                 ticks: {
-                    color: 'white'
+                    color: 'white',
+                    display: false // Desativa a exibição dos rótulos do eixo X
+                    
                 }
             }
         },
@@ -769,7 +771,8 @@ const golsChart = new Chart(ctxGols, {
                     color: 'rgba(0, 0, 0, 0)'
                 },
                 ticks: {
-                    color: 'white'
+                    color: 'white',
+                    display: false // Desativa a exibição dos rótulos do eixo X
                 }
             }
         },
