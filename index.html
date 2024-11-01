@@ -484,11 +484,7 @@
                 return a.minuto - b.minuto;
             });
         }
-    
-        // Calcula a porcentagem inicial com base nos últimos 240 jogos  (((((MUDAR OU APAGAR)))))
-        initialPercentage = calcularPorcentagemAmbosMarcam(fetchedData);
-        initialPercentageAmbasNaoMarcam = calcularPorcentagemAmbasNaoMarcam(fetchedData);
-    
+
         // Seleciona as últimas 120 entradas para exibição no gráfico
         displayData = fetchedData.slice(-120);
     
