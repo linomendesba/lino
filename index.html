@@ -448,19 +448,6 @@
         return golsA === 0 || golsB === 0;
     }
     
-    // Função para calcular a porcentagem de "Ambos Marcam" nos últimos 240 jogos
-    function calcularPorcentagemAmbosMarcam(data) {
-        const totalJogos = data.length;
-        const jogosAmbosMarcam = data.filter(item => ambosMarcam(item.ft)).length;
-        return (jogosAmbosMarcam / totalJogos) * 100;
-    }
-    
-    // Função para calcular a porcentagem de "Ambas Não Marcam" nos últimos 240 jogos
-    function calcularPorcentagemAmbasNaoMarcam(data) {
-        const totalJogos = data.length;
-        const jogosAmbasNaoMarcam = data.filter(item => ambasNaoMarcam(item.ft)).length;
-        return (jogosAmbasNaoMarcam / totalJogos) * 100;
-    }
     
     // Função para atualizar o gráfico com os dados da API
     async function updateChart() {
