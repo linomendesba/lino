@@ -1,0 +1,279 @@
+body {
+  font-family: 'Roboto', Arial, sans-serif;
+  margin: 20px;
+  background-color: #1c1f26;
+  color: #ffffff;
+  font-weight: 200; /* Negrito */
+}
+
+h2 {
+  text-align: center;
+  color: #fffbfb;
+  
+}
+
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: auto;
+  background-color: #1c1f26;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 50px;
+}
+
+th, td {
+  border: 1px solid #606266;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background-color: #101318;
+}
+
+.placar {
+  position: relative;
+  cursor: pointer;
+  font-weight: 700; /* Negrito mais forte */
+}
+
+
+.tooltip {
+  visibility: hidden;
+  width: auto; /* Muda de 100px para auto para ajustar ao tamanho do conteúdo */
+  background-color: #fffdfc;
+  color: #0a0a0a;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%; /* Coloca acima do texto */
+  left: 50%;
+  transform: translateX(-50%); /* Centraliza horizontalmente */
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 15px; /* Ajuste o tamanho da fonte conforme necessário */
+  white-space: nowrap; /* Garante que o texto fique em uma única linha */
+}
+
+
+.placar:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+/*CABEÇARIO
+/* Estilo do Cabeçalho */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+header {
+  background-color: #fe3c00;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 20px;
+  justify-content: space-between;
+}
+
+.logo {
+  height: 40px;
+}
+
+/* Container dos seletores */
+.selectors-container {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Pequeno espaço entre os seletores */
+}
+
+.nav-seletor {
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.nav-seletor select {
+  background-color: #fe3c00;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  padding: 5px;
+  border-radius: 4px;
+  font-weight: 500;
+  margin-left: 5px;
+}
+
+body {
+  padding-top: 80px; /* Ajuste conforme a altura do header */
+}
+
+/* Links dentro do seletor (opções) ao passar o mouse */
+option:hover {
+  background-color: #ff8000; /* Cor de fundo ao passar o mouse */
+  color: #ffffff; /* Cor do texto */
+}
+
+/* Estilo das opções do seletor */
+option {
+  background-color: #1c1f26; /* Cor de fundo padrão */
+  color: #ffffff; /* Cor do texto padrão */
+}
+
+.porcentagem-verde {
+
+  color: #03d80a; /* Texto verde escuro */
+}
+
+.porcentagem-branca {
+
+  color: #fffcfc; /* Texto vermelho escuro */
+}
+
+.seletor-container {
+  display: flex;
+  justify-content: center; /* Centraliza os seletores */
+  margin: 10px 0;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+.seletor-horas,
+.seletor-resultado,
+.seletor-tipo-placar {
+  flex: 0 0 auto; /* Largura automática */
+  margin: 0 5px;
+  display: flex; /* Adiciona flex para organizar o label e o select */
+  flex-direction: row; /* Organiza em linha */
+  align-items: center; /* Alinha verticalmente os itens */
+}
+
+label {
+  margin-right: 5px; /* Espaçamento entre o label e o select */
+  font-weight: bold;
+  color: #fff7f7; /* Preto para o texto */
+}
+
+select {
+  width: 100%; /* Largura total do select */
+  padding: 5px; /* Menos espaço interno */
+  border: 2px solid #000; /* Borda preta */
+  border-radius: 3px; /* Borda levemente arredondada */
+  background-color: #fff; /* Fundo branco */
+  font-size: 14px; /* Tamanho de fonte menor */
+  color: #000; /* Texto preto */
+  transition: border-color 0.3s;
+}
+
+select:focus {
+  outline: none;
+  border-color: #555; /* Cor da borda quando focado */
+}
+
+option {
+  padding: 5px; /* Espaçamento dentro das opções */
+}
+
+select:hover {
+  border-color: #555; /* Cor da borda ao passar o mouse */
+}
+
+
+.coluna-minuto {
+  width: 100px;
+  height: 50px;
+}
+
+
+.chart-container {
+  margin-top: 10px; /* Ajusta o espaço acima do container */
+}
+
+#market-selector {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#market {
+  margin-right: 10px; /* Espaçamento entre o seletor e o botão */
+  width: 150px; /* Define uma largura fixa para o seletor */
+  max-width: 100%; /* Impede que o seletor ultrapasse a largura da tela */
+}
+
+#toggle-ranking {
+  background-color: #fe3c00; /* Cor de fundo verde */
+  color: white; /* Cor do texto */
+  border: none; /* Remove bordas */
+  padding: 8px 16px; /* Ajusta o espaçamento interno do botão (mais fino) */
+  text-align: center; /* Centraliza o texto */
+  text-decoration: none; /* Remove o sublinhado */
+  display: inline-block; /* Permite definir largura e altura */
+  font-size: 14px; /* Tamanho da fonte (mais pequeno) */
+  margin-left: 10px; /* Espaço à esquerda do botão */
+  cursor: pointer; /* Muda o cursor para indicar que é clicável */
+  border-radius: 5px; /* Bordas arredondadas */
+  transition: background-color 0.3s; /* Transição suave para a cor de fundo */
+}
+
+#toggle-ranking:hover {
+  background-color: #fd6e43; /* Cor de fundo quando o mouse está sobre o botão */
+}
+
+#ranking {
+  display: none;
+  margin-top: 20px;
+}
+
+#resultDisplay {
+  display: flex;
+  gap: 10px;
+}
+
+#greenPercentage {
+  background-color: green;
+  color: white;
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+#redPercentage {
+  background-color: red;
+  color: white;
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+#resultDisplay {
+  display: flex;
+  gap: 10px;
+}
+
+#totalGols, #mediaGolsHora {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 5px;
+}
