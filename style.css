@@ -277,3 +277,19 @@ select:hover {
   font-weight: bold;
   border-radius: 5px;
 }
+
+
+button {
+  background-color: #fe3c00;
+  color: rgb(255, 255, 255);
+  font-family: 'Roboto', Arial, sans-serif;
+  border: none;
+  padding: 5px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  margin: 10px; /* Adiciona uma margem de 10 pixels em todas as direções */
+}
+
+
