@@ -208,7 +208,7 @@ select:hover {
 }
 
 #market-selector {
-  margin-top: 20px;
+  margin-top: -30px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -302,21 +302,7 @@ button {
   margin: 0 auto; /* Margem automática para centralização da div */
 }
 
-.container h2 {
-  margin-bottom: 20px; /* Espaçamento abaixo do título */
-}
 
-.container label {
-  margin: 10px 0; /* Espaçamento vertical entre rótulos e campos */
-}
-
-.container select {
-  margin-bottom: 10px; /* Espaçamento abaixo dos selects */
-}
-
-.container button {
-  margin-top: 20px; /* Espaçamento acima do botão */
-}
 .container select {
   text-align: center; /* Centraliza o texto dentro do select */
 }
