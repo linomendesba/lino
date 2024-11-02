@@ -579,38 +579,50 @@
                 foraVenceData.push(previousForaVence);
     
                 // Calcular para "Over 1.5"
-                if (isOver(previous.ft, 1.5) !== isOver(current.ft, 1.5)) {
-                    previousOver1_5 += isOver(current.ft, 1.5) ? 5 : -5;
+                const wasOver1_5 = isOver(previous.ft, 1.5);
+                const isNowOver1_5 = isOver(current.ft, 1.5);
+                if (wasOver1_5 !== isNowOver1_5) {
+                    previousOver1_5 += isNowOver1_5 ? 5 : -5;
                 }
                 over1_5Data.push(previousOver1_5);
     
                 // Calcular para "Under 1.5"
-                if (isUnder(previous.ft, 1.5) !== isUnder(current.ft, 1.5)) {
-                    previousUnder1_5 += isUnder(current.ft, 1.5) ? 5 : -5;
+                const wasUnder1_5 = isUnder(previous.ft, 1.5);
+                const isNowUnder1_5 = isUnder(current.ft, 1.5);
+                if (wasUnder1_5 !== isNowUnder1_5) {
+                    previousUnder1_5 += isNowUnder1_5 ? 5 : -5;
                 }
                 under1_5Data.push(previousUnder1_5);
     
                 // Calcular para "Over 2.5"
-                if (isOver(previous.ft, 2.5) !== isOver(current.ft, 2.5)) {
-                    previousOver2_5 += isOver(current.ft, 2.5) ? 5 : -5;
+                const wasOver2_5 = isOver(previous.ft, 2.5);
+                const isNowOver2_5 = isOver(current.ft, 2.5);
+                if (wasOver2_5 !== isNowOver2_5) {
+                    previousOver2_5 += isNowOver2_5 ? 5 : -5;
                 }
                 over2_5Data.push(previousOver2_5);
     
                 // Calcular para "Under 2.5"
-                if (isUnder(previous.ft, 2.5) !== isUnder(current.ft, 2.5)) {
-                    previousUnder2_5 += isUnder(current.ft, 2.5) ? 5 : -5;
+                const wasUnder2_5 = isUnder(previous.ft, 2.5);
+                const isNowUnder2_5 = isUnder(current.ft, 2.5);
+                if (wasUnder2_5 !== isNowUnder2_5) {
+                    previousUnder2_5 += isNowUnder2_5 ? 5 : -5;
                 }
                 under2_5Data.push(previousUnder2_5);
     
                 // Calcular para "Over 3.5"
-                if (isOver(previous.ft, 3.5) !== isOver(current.ft, 3.5)) {
-                    previousOver3_5 += isOver(current.ft, 3.5) ? 5 : -5;
+                const wasOver3_5 = isOver(previous.ft, 3.5);
+                const isNowOver3_5 = isOver(current.ft, 3.5);
+                if (wasOver3_5 !== isNowOver3_5) {
+                    previousOver3_5 += isNowOver3_5 ? 5 : -5;
                 }
                 over3_5Data.push(previousOver3_5);
     
                 // Calcular para "Under 3.5"
-                if (isUnder(previous.ft, 3.5) !== isUnder(current.ft, 3.5)) {
-                    previousUnder3_5 += isUnder(current.ft, 3.5) ? 5 : -5;
+                const wasUnder3_5 = isUnder(previous.ft, 3.5);
+                const isNowUnder3_5 = isUnder(current.ft, 3.5);
+                if (wasUnder3_5 !== isNowUnder3_5) {
+                    previousUnder3_5 += isNowUnder3_5 ? 5 : -5;
                 }
                 under3_5Data.push(previousUnder3_5);
     
@@ -643,8 +655,6 @@
         myChart.update();
     }
     
-    
-    
     // Função para verificar se os dados estão em ordem
     function isOrdered(data) {
         for (let i = 1; i < data.length; i++) {
@@ -658,6 +668,7 @@
         }
         return true;
     }
+    
     
     // Configuração inicial do gráfico
     const chartData = {
@@ -684,17 +695,18 @@
             },
             
             {
-                label: 'Under 1.5',
+                label: 'Casa Vence',
                 data: [],
-                backgroundColor: 'rgba(0, 128, 0, 0.5)', // Verde escuro transparente
-                borderColor: 'rgba(0, 128, 0, 1)', // Verde escuro
+                backgroundColor: 'rgba(255, 20, 147, 0.5)', // Rosa profundo transparente
+                borderColor: 'rgba(255, 20, 147, 1)', // Rosa profundo
                 borderWidth: 2,
                 pointRadius: 4,  // Exibir bolinhas
-                pointBackgroundColor: 'rgba(0, 128, 0, 1)', // Verde escuro sólido
+                pointBackgroundColor: 'rgba(255, 20, 147, 1)', // Rosa profundo sólido
+
                 hidden: true,
             },
             {
-                label: 'Over 1.5',
+                label: 'Fora Vence',
                 data: [],
                 backgroundColor: 'rgba(0, 0, 255, 0.5)', // Azul transparente
                 borderColor: 'rgba(0, 0, 255, 1)', // Azul
@@ -704,13 +716,24 @@
                 hidden: true,
             },
             {
-                label: 'Under 2.5',
+                label: 'Over 1.5',
                 data: [],
-                backgroundColor: 'rgba(255, 165, 0, 0.5)', // Laranja transparente
-                borderColor: 'rgba(255, 165, 0, 1)', // Laranja
+                backgroundColor: 'rgba(0, 255, 127, 0.5)', // Verde claro transparente
+                borderColor: 'rgba(0, 255, 127, 1)', // Verde claro
                 borderWidth: 2,
                 pointRadius: 4,  // Exibir bolinhas
-                pointBackgroundColor: 'rgba(255, 165, 0, 1)', // Laranja sólido
+                pointBackgroundColor: 'rgba(0, 255, 127, 1)', // Verde claro sólido
+                hidden: true,
+            },
+            {
+                label: 'Under 1.5',
+                data: [],
+                backgroundColor: 'rgba(0, 128, 0, 0.5)', // Verde escuro transparente
+                borderColor: 'rgba(0, 128, 0, 1)', // Verde escuro
+                borderWidth: 2,
+                pointRadius: 4,  // Exibir bolinhas
+                pointBackgroundColor: 'rgba(0, 128, 0, 1)', // Verde escuro sólido
+
                 hidden: true,
             },
             {
@@ -726,25 +749,15 @@
             {
                 label: 'Under 3.5',
                 data: [],
-                backgroundColor: 'rgba(128, 0, 128, 0.5)', // Roxo transparente
-                borderColor: 'rgba(128, 0, 128, 1)', // Roxo
+                backgroundColor: 'rgba(255, 165, 0, 0.5)', // Laranja transparente
+                borderColor: 'rgba(255, 165, 0, 1)', // Laranja
                 borderWidth: 2,
                 pointRadius: 4,  // Exibir bolinhas
-                pointBackgroundColor: 'rgba(128, 0, 128, 1)', // Roxo sólido
+                pointBackgroundColor: 'rgba(255, 165, 0, 1)', // Laranja sólido
                 hidden: true,
             },
             {
                 label: 'Over 3.5',
-                data: [],
-                backgroundColor: 'rgba(255, 20, 147, 0.5)', // Rosa profundo transparente
-                borderColor: 'rgba(255, 20, 147, 1)', // Rosa profundo
-                borderWidth: 2,
-                pointRadius: 4,  // Exibir bolinhas
-                pointBackgroundColor: 'rgba(255, 20, 147, 1)', // Rosa profundo sólido
-                hidden: true,
-            },
-            {
-                label: 'Casa',
                 data: [],
                 backgroundColor: 'rgba(0, 255, 255, 0.5)', // Ciano transparente
                 borderColor: 'rgba(0, 255, 255, 1)', // Ciano
@@ -754,7 +767,7 @@
                 hidden: true,
             },
             {
-                label: 'Fora',
+                label: 'Under 3.5',
                 data: [],
                 backgroundColor: 'rgba(255, 105, 180, 0.5)', // Rosa claro transparente
                 borderColor: 'rgba(255, 105, 180, 1)', // Rosa claro
