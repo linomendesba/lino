@@ -465,6 +465,8 @@
     let displayData = []; // Tornar displayData global
     let initialPercentage = 50; // Define um valor inicial padrão para o gráfico
     let initialPercentageAmbasNaoMarcam = 50; // Define valor inicial para "Ambas Não Marcam"
+    let initialCasaVence = 50; // Define valor inicial para "Casa Vence"
+    let initialForaVence = 50; // Define valor inicial para "Fora Vence"
     
     // Função para buscar e ordenar os dados da rota HTTP
     async function fetchChartData() {
@@ -482,223 +484,288 @@
         }
     }
     
-    // Função para determinar se "Ambos Marcam"
+    // Funções de verificação
     function ambosMarcam(ft) {
         const [golsA, golsB] = ft.split(' x ').map(Number);
         return golsA > 0 && golsB > 0;
     }
-    
-    // Função para determinar se "Ambas Não Marcam"
     function ambasNaoMarcam(ft) {
         const [golsA, golsB] = ft.split(' x ').map(Number);
         return golsA === 0 || golsB === 0;
     }
-    
+    function casaVence(ft) {
+        const [golsA, golsB] = ft.split(' x ').map(Number);
+        return golsA > golsB;
+    }
+    function foraVence(ft) {
+        const [golsA, golsB] = ft.split(' x ').map(Number);
+        return golsB > golsA;
+    }
+    function isOver(ft, threshold) {
+        const [golsA, golsB] = ft.split(' x ').map(Number);
+        return (golsA + golsB) > threshold;
+    }
+    function isUnder(ft, threshold) {
+        const [golsA, golsB] = ft.split(' x ').map(Number);
+        return (golsA + golsB) < threshold;
+    }
     
     // Função para atualizar o gráfico com os dados da API
     async function updateChart() {
-        fetchedData = await fetchChartData(); // Atualiza a variável global
-    
-        // Verifica se fetchedData está em ordem; se não, ordena
+        fetchedData = await fetchChartData();
         if (!isOrdered(fetchedData)) {
             fetchedData.sort((a, b) => {
-                const dateA = new Date(a.data); // Converte a data para objeto Date
+                const dateA = new Date(a.data);
                 const dateB = new Date(b.data);
-    
-                // Primeiro compara pela data
                 if (dateA < dateB) return -1;
                 if (dateA > dateB) return 1;
-    
-                // Se as datas forem iguais, compara pela hora
                 if (a.hora < b.hora) return -1;
                 if (a.hora > b.hora) return 1;
-    
-                // Se a hora for igual, compara pelo minuto
                 return a.minuto - b.minuto;
             });
         }
-
-        // Seleciona as últimas 120 entradas para exibição no gráfico
         displayData = fetchedData.slice(-120);
-    
         const labels = displayData.map(item => `${item.hora.toString().padStart(2, '0')}:${item.minuto.toString().padStart(2, '0')}`);
         const ambosMarcamData = [];
         const ambasNaoMarcamData = [];
-        
-        let previousValue = initialPercentage; // Usa a porcentagem inicial como valor de partida para "Ambos Marcam"
-        let previousValueNaoMarcam = initialPercentageAmbasNaoMarcam; // Usa a porcentagem inicial para "Ambas Não Marcam"
+        const casaVenceData = [];
+        const foraVenceData = [];
+        const over1_5Data = [];
+        const under1_5Data = [];
+        const over2_5Data = [];
+        const under2_5Data = [];
+        const over3_5Data = [];
+        const under3_5Data = [];
+    
+        // Variáveis iniciais para cada dataset
+        let previousAmbosMarcam = initialPercentage;
+        let previousAmbasNaoMarcam = initialPercentageAmbasNaoMarcam;
+        let previousCasaVence = initialCasaVence;
+        let previousForaVence = initialForaVence;
+        let previousOver1_5 = initialPercentage;
+        let previousUnder1_5 = initialPercentageAmbasNaoMarcam;
+        let previousOver2_5 = initialPercentage;
+        let previousUnder2_5 = initialPercentageAmbasNaoMarcam;
+        let previousOver3_5 = initialPercentage;
+        let previousUnder3_5 = initialPercentageAmbasNaoMarcam;
     
         for (let i = 0; i < displayData.length; i++) {
             const current = displayData[i];
             const previous = fetchedData.find(item => item.hora === current.hora - 1 && item.minuto === current.minuto);
     
             if (previous) {
-                const currentAmbosMarcam = ambosMarcam(current.ft);
-                const previousAmbosMarcam = ambosMarcam(previous.ft);
-    
-                // Lógica de movimentação para "Ambos Marcam"
-                if (previousAmbosMarcam && !currentAmbosMarcam) {
-                    previousValue -= 5; // Decrementa se antes marcavam e agora não
-                } else if (!previousAmbosMarcam && currentAmbosMarcam) {
-                    previousValue += 5; // Incrementa se antes não marcavam e agora marcam
+                // Calcular para "Ambas Sim"
+                if (ambosMarcam(previous.ft) !== ambosMarcam(current.ft)) {
+                    previousAmbosMarcam += ambosMarcam(current.ft) ? 5 : -5;
                 }
-                ambosMarcamData.push(previousValue);
+                ambosMarcamData.push(previousAmbosMarcam);
     
-                // Lógica de movimentação para "Ambas Não Marcam"
-                const currentAmbasNaoMarcam = ambasNaoMarcam(current.ft);
-                const previousAmbasNaoMarcam = ambasNaoMarcam(previous.ft);
-    
-                if (previousAmbasNaoMarcam && !currentAmbasNaoMarcam) {
-                    previousValueNaoMarcam -= 5; // Decrementa se antes não marcavam e agora marcam
-                } else if (!previousAmbasNaoMarcam && currentAmbasNaoMarcam) {
-                    previousValueNaoMarcam += 5; // Incrementa se antes marcavam e agora não
+                // Calcular para "Ambas Não"
+                if (ambasNaoMarcam(previous.ft) !== ambasNaoMarcam(current.ft)) {
+                    previousAmbasNaoMarcam += ambasNaoMarcam(current.ft) ? 5 : -5;
                 }
-                ambasNaoMarcamData.push(previousValueNaoMarcam);
+                ambasNaoMarcamData.push(previousAmbasNaoMarcam);
+    
+                // Calcular para "Casa Vence"
+                if (casaVence(previous.ft) !== casaVence(current.ft)) {
+                    previousCasaVence += casaVence(current.ft) ? 5 : -5;
+                }
+                casaVenceData.push(previousCasaVence);
+    
+                // Calcular para "Fora Vence"
+                if (foraVence(previous.ft) !== foraVence(current.ft)) {
+                    previousForaVence += foraVence(current.ft) ? 5 : -5;
+                }
+                foraVenceData.push(previousForaVence);
+    
+                // Calcular para "Over 1.5"
+                if (isOver(previous.ft, 1.5) !== isOver(current.ft, 1.5)) {
+                    previousOver1_5 += isOver(current.ft, 1.5) ? 5 : -5;
+                }
+                over1_5Data.push(previousOver1_5);
+    
+                // Calcular para "Under 1.5"
+                if (isUnder(previous.ft, 1.5) !== isUnder(current.ft, 1.5)) {
+                    previousUnder1_5 += isUnder(current.ft, 1.5) ? 5 : -5;
+                }
+                under1_5Data.push(previousUnder1_5);
+    
+                // Calcular para "Over 2.5"
+                if (isOver(previous.ft, 2.5) !== isOver(current.ft, 2.5)) {
+                    previousOver2_5 += isOver(current.ft, 2.5) ? 5 : -5;
+                }
+                over2_5Data.push(previousOver2_5);
+    
+                // Calcular para "Under 2.5"
+                if (isUnder(previous.ft, 2.5) !== isUnder(current.ft, 2.5)) {
+                    previousUnder2_5 += isUnder(current.ft, 2.5) ? 5 : -5;
+                }
+                under2_5Data.push(previousUnder2_5);
+    
+                // Calcular para "Over 3.5"
+                if (isOver(previous.ft, 3.5) !== isOver(current.ft, 3.5)) {
+                    previousOver3_5 += isOver(current.ft, 3.5) ? 5 : -5;
+                }
+                over3_5Data.push(previousOver3_5);
+    
+                // Calcular para "Under 3.5"
+                if (isUnder(previous.ft, 3.5) !== isUnder(current.ft, 3.5)) {
+                    previousUnder3_5 += isUnder(current.ft, 3.5) ? 5 : -5;
+                }
+                under3_5Data.push(previousUnder3_5);
+    
             } else {
-                ambosMarcamData.push(previousValue);
-                ambasNaoMarcamData.push(previousValueNaoMarcam);
+                // Se não há dados anteriores, manter valores iniciais
+                ambosMarcamData.push(previousAmbosMarcam);
+                ambasNaoMarcamData.push(previousAmbasNaoMarcam);
+                casaVenceData.push(previousCasaVence);
+                foraVenceData.push(previousForaVence);
+                over1_5Data.push(previousOver1_5);
+                under1_5Data.push(previousUnder1_5);
+                over2_5Data.push(previousOver2_5);
+                under2_5Data.push(previousUnder2_5);
+                over3_5Data.push(previousOver3_5);
+                under3_5Data.push(previousUnder3_5);
             }
         }
-
-                    
-                        // Atualizando dados e labels no gráfico
-                        myChart.data.labels = labels;
-                        myChart.data.datasets[0].data = ambosMarcamData; // Dados calculados para "Ambos Marcam"
-                        myChart.data.datasets[1].data = ambasNaoMarcamData; // Dados calculados para "Ambas Não Marcam"
-                        myChart.update();
-                    }
-                    
-
-                    // Função para verificar se os dados estão em ordem
-                    function isOrdered(data) {
-                        for (let i = 1; i < data.length; i++) {
-                            const currentDate = new Date(data[i].data); // Converte para Date
-                            const previousDate = new Date(data[i - 1].data);
-                            
-                            // Verifica se a data atual é anterior à data anterior
-                            if (currentDate < previousDate) {
-                                return false; // Dados não estão em ordem
-                            }
-                            
-                            // Se as datas forem iguais, verifica hora e minuto
-                            if (currentDate.getTime() === previousDate.getTime()) {
-                                if (data[i].hora < data[i - 1].hora || 
-                                    (data[i].hora === data[i - 1].hora && data[i].minuto < data[i - 1].minuto)) {
-                                    return false; // Dados não estão em ordem
-                                }
-                            }
-                        }
-                        return true; // Dados estão em ordem
-                    }
+    
+        myChart.data.labels = labels;
+        myChart.data.datasets[0].data = ambosMarcamData;
+        myChart.data.datasets[1].data = ambasNaoMarcamData;
+        myChart.data.datasets[2].data = casaVenceData;
+        myChart.data.datasets[3].data = foraVenceData;
+        myChart.data.datasets[4].data = over1_5Data;
+        myChart.data.datasets[5].data = under1_5Data;
+        myChart.data.datasets[6].data = over2_5Data;
+        myChart.data.datasets[7].data = under2_5Data;
+        myChart.data.datasets[8].data = over3_5Data;
+        myChart.data.datasets[9].data = under3_5Data;
+        myChart.update();
+    }
+    
+    
+    
+    // Função para verificar se os dados estão em ordem
+    function isOrdered(data) {
+        for (let i = 1; i < data.length; i++) {
+            const currentDate = new Date(data[i].data);
+            const previousDate = new Date(data[i - 1].data);
+            if (currentDate < previousDate) return false;
+            if (currentDate.getTime() === previousDate.getTime()) {
+                if (data[i].hora < data[i - 1].hora || 
+                    (data[i].hora === data[i - 1].hora && data[i].minuto < data[i - 1].minuto)) return false;
+            }
+        }
+        return true;
+    }
     
     // Configuração inicial do gráfico
-const chartData = {
-    labels: [],
-    datasets: [
-        {
-            label: 'Ambas Sim',
-            data: [],
-            backgroundColor: 'rgba(255, 255, 255, 0.5)',
-            borderColor: 'rgba(255, 255, 255, 1)',
-            borderWidth: 2,
-            pointRadius: 4,
-            pointBackgroundColor: 'rgba(255, 255, 255, 1)',
-        },
-        {
-            label: 'Ambas Não',
-            data: [],
-            backgroundColor: 'rgba(255, 0, 0, 0.5)',
-            borderColor: 'rgba(255, 0, 0, 1)',
-            borderWidth: 2,
-            pointRadius: 4,
-            pointBackgroundColor: 'rgba(255, 0, 0, 1)',
-            hidden: true // Mantenha visível
-        },
-        {
-            label: 'Under 1.5',
-            data: Array(120).fill(20),  // Dados fixos
-            backgroundColor: 'rgba(0, 128, 0, 0.5)', // Verde escuro transparente
-            borderColor: 'rgba(0, 128, 0, 1)', // Verde escuro
-            borderWidth: 2,
-            pointRadius: 4,  // Exibir bolinhas
-            pointBackgroundColor: 'rgba(0, 128, 0, 1)', // Verde escuro sólido
-            hidden: true, // Manter visível
-        },
-        {
-            label: 'Over 1.5',
-            data: Array(120).fill(70),  // Dados fixos
-            backgroundColor: 'rgba(0, 0, 255, 0.5)', // Azul transparente
-            borderColor: 'rgba(0, 0, 255, 1)', // Azul
-            borderWidth: 2,
-            pointRadius: 4,  // Exibir bolinhas
-            pointBackgroundColor: 'rgba(0, 0, 255, 1)', // Azul sólido
-            hidden: true, // Manter visível
-        },
-        {
-            label: 'Under 2.5',
-            data: Array(120).fill(40),  // Dados fixos
-            backgroundColor: 'rgba(255, 165, 0, 0.5)', // Laranja transparente
-            borderColor: 'rgba(255, 165, 0, 1)', // Laranja
-            borderWidth: 2,
-            pointRadius: 4,  // Exibir bolinhas
-            pointBackgroundColor: 'rgba(255, 165, 0, 1)', // Laranja sólido
-            hidden: true, // Manter visível
-        },
-        {
-            label: 'Over 2.5',
-            data: Array(120).fill(60),  // Dados fixos
-            backgroundColor: 'rgba(255, 255, 0, 0.5)', // Amarelo transparente
-            borderColor: 'rgba(255, 255, 0, 1)', // Amarelo
-            borderWidth: 2,
-            pointRadius: 4,  // Exibir bolinhas
-            pointBackgroundColor: 'rgba(255, 255, 0, 1)', // Amarelo sólido
-            hidden: true, // Manter visível
-        },
-        {
-            label: 'Under 3.5',
-            data: Array(120).fill(50),  // Dados fixos
-            backgroundColor: 'rgba(128, 0, 128, 0.5)', // Roxo transparente
-            borderColor: 'rgba(128, 0, 128, 1)', // Roxo
-            borderWidth: 2,
-            pointRadius: 4,  // Exibir bolinhas
-            pointBackgroundColor: 'rgba(128, 0, 128, 1)', // Roxo sólido
-            hidden: true, // Manter visível
-        },
-        {
-            label: 'Over 3.5',
-            data: Array(120).fill(80),  // Dados fixos
-            backgroundColor: 'rgba(255, 20, 147, 0.5)', // Rosa profundo transparente
-            borderColor: 'rgba(255, 20, 147, 1)', // Rosa profundo
-            borderWidth: 2,
-            pointRadius: 4,  // Exibir bolinhas
-            pointBackgroundColor: 'rgba(255, 20, 147, 1)', // Rosa profundo sólido
-            hidden: true, // Manter visível
-        },
-        {
-            label: 'Casa',
-            data: Array(120).fill(65),  // Dados fixos
-            backgroundColor: 'rgba(0, 255, 255, 0.5)', // Ciano transparente
-            borderColor: 'rgba(0, 255, 255, 1)', // Ciano
-            borderWidth: 2,
-            pointRadius: 4,  // Exibir bolinhas
-            pointBackgroundColor: 'rgba(0, 255, 255, 1)', // Ciano sólido
-            hidden: true, // Manter visível
-        },
-        {
-            label: 'Fora',
-            data: Array(120).fill(55),  // Dados fixos
-            backgroundColor: 'rgba(255, 105, 180, 0.5)', // Rosa claro transparente
-            borderColor: 'rgba(255, 105, 180, 1)', // Rosa claro
-            borderWidth: 2,
-            pointRadius: 4,  // Exibir bolinhas
-            pointBackgroundColor: 'rgba(255, 105, 180, 1)', // Rosa claro sólido
-            hidden: true, // Manter visível
-        }
-        
-    ]
-};
-
-
+    const chartData = {
+        labels: [],
+        datasets: [
+            {
+                label: 'Ambas Sim',
+                data: [],
+                backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                borderColor: 'rgba(255, 255, 255, 1)',
+                borderWidth: 2,
+                pointRadius: 4,
+                pointBackgroundColor: 'rgba(255, 255, 255, 1)',
+            },
+            {
+                label: 'Ambas Não',
+                data: [],
+                backgroundColor: 'rgba(255, 0, 0, 0.5)', // Cor de fundo vermelho com opacidade
+                borderColor: 'rgba(255, 0, 0, 1)', // Cor da borda vermelha
+                borderWidth: 2,
+                pointRadius: 4,
+                pointBackgroundColor: 'rgba(255, 0, 0, 1)', // Cor dos pontos vermelhos
+                hidden: true,
+            },
+            
+            {
+                label: 'Under 1.5',
+                data: [],
+                backgroundColor: 'rgba(0, 128, 0, 0.5)', // Verde escuro transparente
+                borderColor: 'rgba(0, 128, 0, 1)', // Verde escuro
+                borderWidth: 2,
+                pointRadius: 4,  // Exibir bolinhas
+                pointBackgroundColor: 'rgba(0, 128, 0, 1)', // Verde escuro sólido
+                hidden: true,
+            },
+            {
+                label: 'Over 1.5',
+                data: [],
+                backgroundColor: 'rgba(0, 0, 255, 0.5)', // Azul transparente
+                borderColor: 'rgba(0, 0, 255, 1)', // Azul
+                borderWidth: 2,
+                pointRadius: 4,  // Exibir bolinhas
+                pointBackgroundColor: 'rgba(0, 0, 255, 1)', // Azul sólido
+                hidden: true,
+            },
+            {
+                label: 'Under 2.5',
+                data: [],
+                backgroundColor: 'rgba(255, 165, 0, 0.5)', // Laranja transparente
+                borderColor: 'rgba(255, 165, 0, 1)', // Laranja
+                borderWidth: 2,
+                pointRadius: 4,  // Exibir bolinhas
+                pointBackgroundColor: 'rgba(255, 165, 0, 1)', // Laranja sólido
+                hidden: true,
+            },
+            {
+                label: 'Over 2.5',
+                data: [],
+                backgroundColor: 'rgba(255, 255, 0, 0.5)', // Amarelo transparente
+                borderColor: 'rgba(255, 255, 0, 1)', // Amarelo
+                borderWidth: 2,
+                pointRadius: 4,  // Exibir bolinhas
+                pointBackgroundColor: 'rgba(255, 255, 0, 1)', // Amarelo sólido
+                hidden: true,
+            },
+            {
+                label: 'Under 3.5',
+                data: [],
+                backgroundColor: 'rgba(128, 0, 128, 0.5)', // Roxo transparente
+                borderColor: 'rgba(128, 0, 128, 1)', // Roxo
+                borderWidth: 2,
+                pointRadius: 4,  // Exibir bolinhas
+                pointBackgroundColor: 'rgba(128, 0, 128, 1)', // Roxo sólido
+                hidden: true,
+            },
+            {
+                label: 'Over 3.5',
+                data: [],
+                backgroundColor: 'rgba(255, 20, 147, 0.5)', // Rosa profundo transparente
+                borderColor: 'rgba(255, 20, 147, 1)', // Rosa profundo
+                borderWidth: 2,
+                pointRadius: 4,  // Exibir bolinhas
+                pointBackgroundColor: 'rgba(255, 20, 147, 1)', // Rosa profundo sólido
+                hidden: true,
+            },
+            {
+                label: 'Casa',
+                data: [],
+                backgroundColor: 'rgba(0, 255, 255, 0.5)', // Ciano transparente
+                borderColor: 'rgba(0, 255, 255, 1)', // Ciano
+                borderWidth: 2,
+                pointRadius: 4,  // Exibir bolinhas
+                pointBackgroundColor: 'rgba(0, 255, 255, 1)', // Ciano sólido
+                hidden: true,
+            },
+            {
+                label: 'Fora',
+                data: [],
+                backgroundColor: 'rgba(255, 105, 180, 0.5)', // Rosa claro transparente
+                borderColor: 'rgba(255, 105, 180, 1)', // Rosa claro
+                borderWidth: 2,
+                pointRadius: 4,  // Exibir bolinhas
+                pointBackgroundColor: 'rgba(255, 105, 180, 1)', // Rosa claro sólido
+                hidden: true,
+            }
+        ]
+    };
+    
 // Inicializando o gráfico
 const myChart = new Chart(ctx, {
     type: 'line',
@@ -750,8 +817,7 @@ const myChart = new Chart(ctx, {
     }
 });
 
-
-
+    
 // Atualiza o gráfico com dados da API a cada 5 segundos
 setInterval(updateChart, 5000);
 
