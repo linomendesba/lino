@@ -293,3 +293,36 @@ button {
 }
 
 
+.container {
+  display: flex;
+  flex-direction: column; /* Coloca os itens em coluna */
+  align-items: center; /* Centraliza horizontalmente */
+  justify-content: center; /* Centraliza verticalmente */
+  text-align: center; /* Centraliza o texto dentro dos elementos */
+  margin: 0 auto; /* Margem automática para centralização da div */
+}
+
+.container h2 {
+  margin-bottom: 20px; /* Espaçamento abaixo do título */
+}
+
+.container label {
+  margin: 10px 0; /* Espaçamento vertical entre rótulos e campos */
+}
+
+.container select {
+  margin-bottom: 10px; /* Espaçamento abaixo dos selects */
+}
+
+.container button {
+  margin-top: 20px; /* Espaçamento acima do botão */
+}
+.container select {
+  text-align: center; /* Centraliza o texto dentro do select */
+}
+
+h1 {
+  text-align: center; /* Centraliza o texto */
+  margin: 0; /* Remove margens padrão, se necessário */
+  gap: 5px;
+}
