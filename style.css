@@ -351,3 +351,21 @@ h1 {
   100% { transform: rotate(360deg); }
 }
 
+.pizza-container {
+  display: flex;
+  justify-content: space-evenly; /* Distribui igualmente os gráficos, centralizando o grupo */
+  flex-wrap: nowrap; /* Impede quebra de linha */
+  overflow-x: auto; /* Permite rolagem horizontal se necessário */
+  margin-bottom: 10px;
+}
+
+.pizza-chart-container {
+  width: 15%; /* Diminui a largura dos gráficos */
+  margin: 0; /* Remove margens para evitar espaçamento adicional */
+  text-align: center;
+}
+
+canvas {
+  background-color: #1c1f26;
+  height: 200px; /* Define uma altura fixa para os gráficos */
+}
