@@ -97,11 +97,10 @@
         <button onclick="logout()">Sair</button>
     </header>
 
+    <h2>Estatísticas de Confronto</h2>
 
-    <div class="container">
-        <h2>Estatísticas de Confronto entre Times</h2>
-        
-        <label for="timeA">Time Casa:</label>
+    <div class="container">    
+        <label for="timeA">Casa:</label>
         <select id="timeA">
             <option value="O. Caldas">O. Caldas</option>
             <option value="River">River</option>
@@ -125,7 +124,7 @@
             <option value="Tricolor paulista">Tricolor paulista</option>
         </select>
         
-        <label for="timeB">Time Fora:</label>
+        <label for="timeB">Fora:</label>
         <select id="timeB">
             <option value="O. Caldas">O. Caldas</option>
             <option value="River">River</option>
@@ -149,53 +148,55 @@
             <option value="Tricolor paulista">Tricolor paulista</option>
         </select>
         
-        <button onclick="obterResultados()">Buscar Estatísticas</button>
+        <button onclick="obterResultados()">Buscar</button>
         
-        <table id="tabelaEstatisticas">
-            <thead>
-                <tr>
-                    <th>Total de Confrontos</th>
-                    <th>Vitórias Casa</th>
-                    <th>Vitórias Fora</th>
-                    <th>Empates</th>
-                    <th>Último Resultado</th>
-                    <th>Ambas Sim</th>
-                    <th>Ambas Não</th>
-                    <th>Casa vence</th>
-                    <th>Fora vence</th>
-                    <th>Médias de gols</th>
-                    <th>Over 1.5</th>
-                    <th>Under 1.5</th>
-                    <th>Over 2.5</th>
-                    <th>Under 2.5</th>
-                    <th>Over 3.5</th>
-                    <th>Under 3.5</th>
-                    <th>Over 5+</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td id="totalConfrontos">...</td>
-                    <td id="vitoriasCasa">...</td>
-                    <td id="vitoriasFora">...</td>
-                    <td id="empates">...</td>
-                    <td id="ultimoResultado">...</td>
-                    <td id="ambasSim">...</td>
-                    <td id="ambasNao">...</td>
-                    <td id="casaVence">...</td>
-                    <td id="foraVence">...</td>
-                    <td id="mediaGols">...</td>
-                    <td id="over1_5">...</td>
-                    <td id="under1_5">...</td>
-                    <td id="over2_5">...</td>
-                    <td id="under2_5">...</td>
-                    <td id="over3_5">...</td>
-                    <td id="under3_5">...</td>
-                    <td id="over5_plus">...</td>
-                </tr>
-            </tbody>
-        </table>
     </div>
+
+    <table id="tabelaEstatisticas">
+        <thead>
+            <tr>
+                <th>Total de Confrontos</th>
+                <th>Vitórias Casa</th>
+                <th>Vitórias Fora</th>
+                <th>Empates</th>
+                <th>Último Resultado</th>
+                <th>Ambas Sim</th>
+                <th>Ambas Não</th>
+                <th>Casa vence</th>
+                <th>Fora vence</th>
+                <th>Médias de gols</th>
+                <th>Over 1.5</th>
+                <th>Under 1.5</th>
+                <th>Over 2.5</th>
+                <th>Under 2.5</th>
+                <th>Over 3.5</th>
+                <th>Under 3.5</th>
+                <th>Over 5+</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="totalConfrontos"><div class="loading-spinner"></div></td>
+                <td id="vitoriasCasa"><div class="loading-spinner"></div></td>
+                <td id="vitoriasFora"><div class="loading-spinner"></div></td>
+                <td id="empates"><div class="loading-spinner"></div></td>
+                <td id="ultimoResultado"><div class="loading-spinner"></div></td>
+                <td id="ambasSim"><div class="loading-spinner"></div></td>
+                <td id="ambasNao"><div class="loading-spinner"></div></td>
+                <td id="casaVence"><div class="loading-spinner"></div></td>
+                <td id="foraVence"><div class="loading-spinner"></div></td>
+                <td id="mediaGols"><div class="loading-spinner"></div></td>
+                <td id="over1_5"><div class="loading-spinner"></div></td>
+                <td id="under1_5"><div class="loading-spinner"></div></td>
+                <td id="over2_5"><div class="loading-spinner"></div></td>
+                <td id="under2_5"><div class="loading-spinner"></div></td>
+                <td id="over3_5"><div class="loading-spinner"></div></td>
+                <td id="under3_5"><div class="loading-spinner"></div></td>
+                <td id="over5_plus"><div class="loading-spinner"></div></td>
+              </tr>
+              
+        </tbody>
+    </table>
 
     <div id="market-selector">
         <label for="market">Mercado Ranking:</label>
@@ -1534,7 +1535,7 @@ updateGolsChart(); // Chama a função para atualizar inicialmente
         const dados = await resposta.json();
 
         // Pega apenas as 480 entradas mais recentes
-        const dadosRecentes = dados.slice(-480);
+        const dadosRecentes = dados.slice(-960);
 
         // Filtra apenas os jogos entre os dois times
         const jogosAnteriores = dadosRecentes.filter(jogo => 
@@ -1630,6 +1631,7 @@ updateGolsChart(); // Chama a função para atualizar inicialmente
             over5_plus
         };
     }
+
 </script>
 </body>
 </html>
