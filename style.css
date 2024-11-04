@@ -360,7 +360,7 @@ h1 {
 }
 
 .pizza-chart-container {
-  width: 15%; /* Diminui a largura dos gráficos */
+  width: 10%; /* Diminui a largura dos gráficos */
   margin: 0; /* Remove margens para evitar espaçamento adicional */
   text-align: center;
 }
