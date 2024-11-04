@@ -829,7 +829,7 @@
                 backgroundColor: 'rgba(255, 255, 255, 0.5)',
                 borderColor: 'rgba(255, 255, 255, 1)',
                 borderWidth: 2,
-                pointRadius: 4,
+                pointRadius: 3,  // Exibir bolinhas
                 pointBackgroundColor: 'rgba(255, 255, 255, 1)',
             },
             {
@@ -838,7 +838,7 @@
                 backgroundColor: 'rgba(255, 0, 0, 0.5)', // Cor de fundo vermelho com opacidade
                 borderColor: 'rgba(255, 0, 0, 1)', // Cor da borda vermelha
                 borderWidth: 2,
-                pointRadius: 4,
+                pointRadius: 3,  // Exibir bolinhas
                 pointBackgroundColor: 'rgba(255, 0, 0, 1)', // Cor dos pontos vermelhos
                 hidden: true,
             },
@@ -849,7 +849,7 @@
                 backgroundColor: 'rgba(255, 20, 147, 0.5)', // Rosa profundo transparente
                 borderColor: 'rgba(255, 20, 147, 1)', // Rosa profundo
                 borderWidth: 2,
-                pointRadius: 4,  // Exibir bolinhas
+                pointRadius: 3,  // Exibir bolinhas
                 pointBackgroundColor: 'rgba(255, 20, 147, 1)', // Rosa profundo sólido
                 hidden: true,
             },
@@ -859,7 +859,7 @@
                 backgroundColor: 'rgba(0, 0, 255, 0.5)', // Azul transparente
                 borderColor: 'rgba(0, 0, 255, 1)', // Azul
                 borderWidth: 2,
-                pointRadius: 4,  // Exibir bolinhas
+                pointRadius: 3,  // Exibir bolinhas
                 pointBackgroundColor: 'rgba(0, 0, 255, 1)', // Azul sólido
                 hidden: true,
             },
@@ -869,7 +869,7 @@
                 backgroundColor: 'rgba(0, 255, 127, 0.5)', // Verde claro transparente
                 borderColor: 'rgba(0, 255, 127, 1)', // Verde claro
                 borderWidth: 2,
-                pointRadius: 4,  // Exibir bolinhas
+                pointRadius: 3,  // Exibir bolinhas
                 pointBackgroundColor: 'rgba(0, 255, 127, 1)', // Verde claro sólido
                 hidden: true,
             },
@@ -879,7 +879,7 @@
                 backgroundColor: 'rgba(0, 128, 0, 0.5)', // Verde escuro transparente
                 borderColor: 'rgba(0, 128, 0, 1)', // Verde escuro
                 borderWidth: 2,
-                pointRadius: 4,  // Exibir bolinhas
+                pointRadius: 3,  // Exibir bolinhas
                 pointBackgroundColor: 'rgba(0, 128, 0, 1)', // Verde escuro sólido
                 hidden: true,
             },
@@ -889,7 +889,7 @@
                 backgroundColor: 'rgba(255, 255, 0, 0.5)', // Amarelo transparente
                 borderColor: 'rgba(255, 255, 0, 1)', // Amarelo
                 borderWidth: 2,
-                pointRadius: 4,  // Exibir bolinhas
+                pointRadius: 3,  // Exibir bolinhas
                 pointBackgroundColor: 'rgba(255, 255, 0, 1)', // Amarelo sólido
                 hidden: true,
             },
@@ -899,7 +899,7 @@
                 backgroundColor: 'rgba(255, 165, 0, 0.5)', // Laranja transparente
                 borderColor: 'rgba(255, 165, 0, 1)', // Laranja
                 borderWidth: 2,
-                pointRadius: 4,  // Exibir bolinhas
+                pointRadius: 3,  // Exibir bolinhas
                 pointBackgroundColor: 'rgba(255, 165, 0, 1)', // Laranja sólido
                 hidden: true,
             },
@@ -909,7 +909,7 @@
                 backgroundColor: 'rgba(0, 255, 255, 0.5)', // Ciano transparente
                 borderColor: 'rgba(0, 255, 255, 1)', // Ciano
                 borderWidth: 2,
-                pointRadius: 4,  // Exibir bolinhas
+                pointRadius: 3,  // Exibir bolinhas
                 pointBackgroundColor: 'rgba(0, 255, 255, 1)', // Ciano sólido
                 hidden: true,
             },
@@ -919,7 +919,7 @@
                 backgroundColor: 'rgba(255, 105, 180, 0.5)', // Rosa claro transparente
                 borderColor: 'rgba(255, 105, 180, 1)', // Rosa claro
                 borderWidth: 2,
-                pointRadius: 4,  // Exibir bolinhas
+                pointRadius: 3,  // Exibir bolinhas
                 pointBackgroundColor: 'rgba(255, 105, 180, 1)', // Rosa claro sólido
                 hidden: true,
             },
@@ -1793,6 +1793,55 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
     // Atualizar dados a cada 3 minutos (180000 ms)
     setInterval(carregarDados, 180000);
     
+</script>
+<script>
+    
+    // Desabilitar clique direito
+    document.addEventListener("contextmenu", function(e) {
+        e.preventDefault();
+    });
+
+    // Bloquear F12 e Ctrl + Shift + I
+    document.addEventListener("keydown", function(e) {
+        // Bloqueia F12
+        if (e.key === "F12" || 
+            (e.ctrlKey && e.shiftKey && e.key === "I")) {
+            e.preventDefault();
+        }
+
+        // Bloquear Ctrl + U
+        if (e.ctrlKey && e.key === "u") {
+            e.preventDefault();
+        }
+
+        // Bloquear Ctrl + Shift + J (para abrir console)
+        if (e.ctrlKey && e.shiftKey && e.key === "J") {
+            e.preventDefault();
+        }
+
+        // Bloquear Ctrl + Shift + C (para abrir ferramenta de inspeção)
+        if (e.ctrlKey && e.shiftKey && e.key === "C") {
+            e.preventDefault();
+        }
+    });
+
+    // Detectar se o console está aberto (método baseado em desempenho)
+    const devtools = { open: false };
+    const element = new Image();
+    Object.defineProperty(element, 'id', {
+        get: function () {
+            devtools.open = true;
+        }
+    });
+
+    console.log('%c', element); // Executa a propriedade para verificar se o console está aberto
+    setInterval(function() {
+        if (devtools.open) {
+            alert('Desculpe, as ferramentas de desenvolvedor estão abertas!');
+            devtools.open = false; // Reseta a flag para evitar múltiplos alertas
+        }
+    }, 1000);
+
 </script>
 </body>
 </html>
