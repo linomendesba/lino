@@ -1948,20 +1948,22 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
                     y: {
                         position: 'right',
                         ticks: {
-                            color: 'white'
+                            color: 'white',
+                            stepSize: 5 // Define o intervalo de 5 unidades entre as linhas horizontais
                         },
                         grid: {
-                            color: 'rgba(255, 255, 255, 0.5)',
-                            lineWidth: 1
+                            color: 'rgba(255, 255, 255, 0.5)', // Cor das linhas de grade
+                            drawBorder: false,
+                            lineWidth: 1 // Espessura da linha de grade
                         }
                     },
                     x: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0)' // Torna a grade do eixo X invisível
+                        },
                         ticks: {
                             color: 'white',
-                            display: false
-                        },
-                        grid: {
-                            display: false  // Desativa as linhas verticais
+                            display: false // Desativa a exibição dos rótulos do eixo X
                         }
                     }
                 },
@@ -1982,6 +1984,7 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
                 }
             }
         });
+        
         
 
         setInterval(updateChart, 5000);
