@@ -1675,29 +1675,55 @@ updateGolsChart(); // Chama a função para atualizar inicialmente
     // Variável para armazenar o último dado processado
     let lastData = [];
     
-// Função para criar ou atualizar gráfico de pizza com cores distintas
+// Função para criar ou atualizar gráfico de pizza com visual moderno
 function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
     if (chart) {
         chart.data.datasets[0].data = data;
         chart.update();
     } else {
         chart = new Chart(ctx, {
-            type: 'pie',
+            type: 'doughnut',  // Alterando para gráfico de rosca
             data: {
                 labels: labels,
                 datasets: [{
                     data: data,
                     backgroundColor: colors,
-                    borderColor: '#1c1f26'
+                    borderColor: '#1c1f26',
+                    borderWidth: 2, // Borda mais fina para um visual moderno
+                    hoverOffset: 10  // Efeito de deslocamento ao passar o mouse
                 }]
             },
             options: {
-                responsive: true
+                responsive: true,
+                cutout: '60%', // Aumenta o espaço no centro para o efeito de rosca
+                plugins: {
+                    legend: {
+                        position: 'bottom', // Posição moderna para a legenda
+                        labels: {
+                            color: '#FFFFFF', // Cor da legenda
+                            font: {
+                                size: 14
+                            }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        bodyFont: {
+                            size: 14
+                        },
+                        padding: 10
+                    }
+                },
+                animation: {
+                    animateScale: true,  // Animação de entrada
+                    animateRotate: true  // Animação de rotação
+                }
             }
         });
     }
     return chart;
 }
+
     
     // Função para processar dados e calcular estatísticas para cada mercado
     function processarDados(dados) {
