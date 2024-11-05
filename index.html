@@ -1837,7 +1837,7 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
         let fetchedData = [];
         let displayData = [];
         let initialPercentageGols = 50;
-
+    
         function isOrdered(data) {
             for (let i = 1; i < data.length; i++) {
                 const currentDate = new Date(data[i].data);
@@ -1850,10 +1850,10 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
             }
             return true;
         }
-
+    
         async function fetchChartData() {
             try {
-                const response = await fetch('https://servidorbetano.up.railway.app/resultados/Ta%C3%A7a%20Gl%C3%B3ria%20eterna');
+                const response = await fetch('http://localhost:3000/resultados/Ta%C3%A7a%20Gl%C3%B3ria%20eterna');
                 if (!response.ok) {
                     throw new Error(`Erro na requisição: ${response.status}`);
                 }
@@ -1867,31 +1867,31 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
                     if (a.hora > b.hora) return 1;
                     return a.minuto - b.minuto;
                 });
-
+    
                 if (!isOrdered(sortedData)) {
                     console.warn('Os dados não estão em ordem.');
                     return [];
                 }
-
+    
                 return sortedData;
             } catch (error) {
                 console.error('Erro ao buscar dados:', error);
                 return [];
             }
         }
-
+    
         async function updateChart() {
             fetchedData = await fetchChartData();
             if (fetchedData.length === 0) {
                 console.warn('Nenhum dado para atualizar o gráfico.');
                 return;
             }
-
+    
             displayData = fetchedData.slice(-150);
             const labels = displayData.map(item => `${item.hora}:${item.minuto.toString().padStart(2, '0')}`);
             const golsData = [];
             let previousGols = initialPercentageGols;
-
+    
             for (let i = 0; i < displayData.length; i++) {
                 const current = displayData[i];
                 const previousHour = current.hora === 0 ? 23 : current.hora - 1;
@@ -1900,30 +1900,29 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
                     item.hora == previousHour &&
                     item.minuto == current.minuto &&
                     item.data === previousDate);
-
+    
                 if (previous) {
                     const [golsAAtual, golsBAtual] = current.ft.split(' x ').map(Number);
                     const [golsAAnterior, golsBAnterior] = previous.ft.split(' x ').map(Number);
-
+    
                     if (golsAAnterior !== undefined && golsBAnterior !== undefined) {
                         const totalGolsAtual = golsAAtual + golsBAtual;
                         const totalGolsAnterior = golsAAnterior + golsBAnterior;
-
-                        if (totalGolsAtual > totalGolsAnterior) {
-                            previousGols += 5;
-                        } else if (totalGolsAtual < totalGolsAnterior) {
-                            previousGols -= 5;
-                        }
+    
+                        // Calcula a diferença entre os totais e ajusta o valor da linha no gráfico
+                        const diferencaGols = totalGolsAtual - totalGolsAnterior;
+                        previousGols += diferencaGols;  // Aplica a diferença diretamente
+    
                     }
                 }
                 golsData.push(previousGols);
             }
-
+    
             golsplus.data.labels = labels;
             golsplus.data.datasets[0].data = golsData;
             golsplus.update();
         }
-
+    
         const chartData = {
             labels: [],
             datasets: [
@@ -1935,11 +1934,10 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
                     borderWidth: 2,
                     pointRadius: 3,
                     pointBackgroundColor: 'rgba(255, 255, 0, 1)' // Pontos amarelos
-                    
                 }
             ]
         };
-
+    
         const golsplus = new Chart(ctx, {
             type: 'line',
             data: chartData,
@@ -1984,16 +1982,14 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
                 }
             }
         });
-        
-        
-
+    
         setInterval(updateChart, 5000);
         updateChart();
     }
-
+    
     // Inicializar o gráfico ao carregar o script
     initializeChart();
-
+    
 </script>
 </body>
 </html>
