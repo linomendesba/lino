@@ -243,12 +243,13 @@
     
     <div id="ranking" class="hidden"></div>
     
-    <canvas id="golsplus" width="1600" height="300"></canvas>
 
     <div class="chart-container">
         <canvas id="golsChart" width="1600" height="250"></canvas> <!-- Novo gráfico para a soma de gols -->
     </div>
     
+    <canvas id="golsplus" width="1600" height="300"></canvas>
+
     <div class="chart-container">
         <canvas id="myChart" width="1600" height="300"></canvas> <!-- Gráfico existente -->
     </div>
@@ -983,7 +984,7 @@ const golsChartData = {
     labels: [],
     datasets: [
         {
-            label: 'Gols',
+            label: 'Gols Barra',
             data: [],
             backgroundColor: 'rgba(255, 255, 0, 0.5)', // Fundo amarelo
             borderColor: 'rgba(255, 255, 0, 1)', // Linha amarela
@@ -1927,13 +1928,14 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
             labels: [],
             datasets: [
                 {
-                    label: 'Gols',
+                    label: 'Gols Linha',
                     data: [],
-                    backgroundColor: 'rgba(254, 60, 0, 0.5)',
-                    borderColor: '#fe3c00',
+                    borderColor: 'rgba(255, 255, 0, 1)', // Linha amarela
+                    backgroundColor: 'rgba(255, 255, 0, 0.5)', // Fundo com amarelo semitransparente
                     borderWidth: 2,
                     pointRadius: 3,
-                    pointBackgroundColor: '#fe3c00'
+                    pointBackgroundColor: 'rgba(255, 255, 0, 1)' // Pontos amarelos
+                    
                 }
             ]
         };
@@ -1949,13 +1951,13 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
                             color: 'white'
                         },
                         grid: {
-                            color: 'rgba(200, 200, 200, 0.3)',
+                            color: 'rgba(255, 255, 255, 0.5)',
                             lineWidth: 1
                         }
                     },
                     x: {
                         grid: {
-                            color: 'rgba(0, 0, 0, 0)'
+                            color: 'rgba(255, 255, 255, 0.5)'
                         },
                         ticks: {
                             color: 'white',
