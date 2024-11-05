@@ -1956,10 +1956,12 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
                         }
                     },
                     x: {
-
                         ticks: {
                             color: 'white',
                             display: false
+                        },
+                        grid: {
+                            display: false  // Desativa as linhas verticais
                         }
                     }
                 },
@@ -1980,6 +1982,7 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
                 }
             }
         });
+        
 
         setInterval(updateChart, 5000);
         updateChart();
