@@ -588,17 +588,17 @@
     const ctx = document.getElementById('myChart').getContext('2d');
 
     // Declare fetchedData e displayData no escopo superior
-    let fetchedData = [];
+    let fetchedData = []; 
     let displayData = []; // Tornar displayData global
     let initialPercentage = 50; // Define um valor inicial padrão para o gráfico
     let initialPercentageAmbasNaoMarcam = 50; // Define valor inicial para "Ambas Não Marcam"
     let initialCasaVence = 50; // Define valor inicial para "Casa Vence"
     let initialForaVence = 50; // Define valor inicial para "Fora Vence"
-
+    
     // Função para buscar e ordenar os dados da rota HTTP
     async function fetchChartData() {
         try {
-            const response = await fetch('https://servidorbetano.up.railway.app/resultados/Ta%C3%A7a%20Gl%C3%B3ria%20eterna');
+            const response = await fetch('https://servidorbetano.up.railway.app/resultados/Copa%20America');
             if (!response.ok) {
                 throw new Error(`Erro na requisição: ${response.status}`);
             }
@@ -610,7 +610,7 @@
             return [];
         }
     }
-
+    
     // Funções de verificação
     function ambosMarcam(ft) {
         const [golsA, golsB] = ft.split(' x ').map(Number);
@@ -636,7 +636,7 @@
         const [golsA, golsB] = ft.split(' x ').map(Number);
         return (golsA + golsB) < threshold;
     }
-
+    
     // Função para atualizar o gráfico com os dados da API
     async function updateChart() {
         fetchedData = await fetchChartData();
@@ -663,7 +663,7 @@
         const under2_5Data = [];
         const over3_5Data = [];
         const under3_5Data = [];
-
+    
         // Variáveis iniciais para cada dataset
         let previousAmbosMarcam = initialPercentage;
         let previousAmbasNaoMarcam = initialPercentageAmbasNaoMarcam;
@@ -675,44 +675,36 @@
         let previousUnder2_5 = initialPercentageAmbasNaoMarcam;
         let previousOver3_5 = initialPercentage;
         let previousUnder3_5 = initialPercentageAmbasNaoMarcam;
-
+    
         for (let i = 0; i < displayData.length; i++) {
             const current = displayData[i];
-            // Ajustar a data se a hora for 0
-            const previousHour = current.hora === 0 ? 23 : current.hora - 1;
-            const previousDate = current.hora === 0 ? new Date(current.data).setDate(new Date(current.data).getDate() - 1) : new Date(current.data);
-
-            const previous = fetchedData.find(item =>
-                new Date(item.data).getTime() === previousDate.getTime() &&
-                item.hora === previousHour &&
-                item.minuto === current.minuto
-            );
-
+            const previous = fetchedData.find(item => item.hora === current.hora - 1 && item.minuto === current.minuto);
+    
             if (previous) {
                 // Calcular para "Ambas Sim"
                 if (ambosMarcam(previous.ft) !== ambosMarcam(current.ft)) {
                     previousAmbosMarcam += ambosMarcam(current.ft) ? 5 : -5;
                 }
                 ambosMarcamData.push(previousAmbosMarcam);
-
+    
                 // Calcular para "Ambas Não"
                 if (ambasNaoMarcam(previous.ft) !== ambasNaoMarcam(current.ft)) {
                     previousAmbasNaoMarcam += ambasNaoMarcam(current.ft) ? 5 : -5;
                 }
                 ambasNaoMarcamData.push(previousAmbasNaoMarcam);
-
+    
                 // Calcular para "Casa Vence"
                 if (casaVence(previous.ft) !== casaVence(current.ft)) {
                     previousCasaVence += casaVence(current.ft) ? 5 : -5;
                 }
                 casaVenceData.push(previousCasaVence);
-
+    
                 // Calcular para "Fora Vence"
                 if (foraVence(previous.ft) !== foraVence(current.ft)) {
                     previousForaVence += foraVence(current.ft) ? 5 : -5;
                 }
                 foraVenceData.push(previousForaVence);
-
+    
                 // Calcular para "Over 1.5"
                 const wasOver1_5 = isOver(previous.ft, 1.5);
                 const isNowOver1_5 = isOver(current.ft, 1.5);
@@ -720,7 +712,7 @@
                     previousOver1_5 += isNowOver1_5 ? 5 : -5;
                 }
                 over1_5Data.push(previousOver1_5);
-
+    
                 // Calcular para "Under 1.5"
                 const wasUnder1_5 = isUnder(previous.ft, 1.5);
                 const isNowUnder1_5 = isUnder(current.ft, 1.5);
@@ -728,7 +720,7 @@
                     previousUnder1_5 += isNowUnder1_5 ? 5 : -5;
                 }
                 under1_5Data.push(previousUnder1_5);
-
+    
                 // Calcular para "Over 2.5"
                 const wasOver2_5 = isOver(previous.ft, 2.5);
                 const isNowOver2_5 = isOver(current.ft, 2.5);
@@ -736,7 +728,7 @@
                     previousOver2_5 += isNowOver2_5 ? 5 : -5;
                 }
                 over2_5Data.push(previousOver2_5);
-
+    
                 // Calcular para "Under 2.5"
                 const wasUnder2_5 = isUnder(previous.ft, 2.5);
                 const isNowUnder2_5 = isUnder(current.ft, 2.5);
@@ -744,7 +736,7 @@
                     previousUnder2_5 += isNowUnder2_5 ? 5 : -5;
                 }
                 under2_5Data.push(previousUnder2_5);
-
+    
                 // Calcular para "Over 3.5"
                 const wasOver3_5 = isOver(previous.ft, 3.5);
                 const isNowOver3_5 = isOver(current.ft, 3.5);
@@ -752,7 +744,7 @@
                     previousOver3_5 += isNowOver3_5 ? 5 : -5;
                 }
                 over3_5Data.push(previousOver3_5);
-
+    
                 // Calcular para "Under 3.5"
                 const wasUnder3_5 = isUnder(previous.ft, 3.5);
                 const isNowUnder3_5 = isUnder(current.ft, 3.5);
@@ -760,6 +752,7 @@
                     previousUnder3_5 += isNowUnder3_5 ? 5 : -5;
                 }
                 under3_5Data.push(previousUnder3_5);
+    
             } else {
                 // Se não há dados anteriores, manter valores iniciais
                 ambosMarcamData.push(previousAmbosMarcam);
@@ -773,38 +766,38 @@
                 over3_5Data.push(previousOver3_5);
                 under3_5Data.push(previousUnder3_5);
             }
+            
         }
-
-        // Atualizar o gráfico com os dados calculados
+    
         myChart.data.labels = labels;
-        myChart.data.datasets[0].data = ambosMarcamData; // "Ambas Marcam"
-        myChart.data.datasets[1].data = ambasNaoMarcamData; // "Ambas Não Marcam"
-        myChart.data.datasets[2].data = casaVenceData; // "Casa Vence"
-        myChart.data.datasets[3].data = foraVenceData; // "Fora Vence"
-        myChart.data.datasets[4].data = over1_5Data; // "Over 1.5"
-        myChart.data.datasets[5].data = under1_5Data; // "Under 1.5"
-        myChart.data.datasets[6].data = over2_5Data; // "Over 2.5"
-        myChart.data.datasets[7].data = under2_5Data; // "Under 2.5"
-        myChart.data.datasets[8].data = over3_5Data; // "Over 3.5"
-        myChart.data.datasets[9].data = under3_5Data; // "Under 3.5"
-
-        myChart.update(); // Atualizar o gráfico
+        myChart.data.datasets[0].data = ambosMarcamData;
+        myChart.data.datasets[1].data = ambasNaoMarcamData;
+        myChart.data.datasets[2].data = casaVenceData;
+        myChart.data.datasets[3].data = foraVenceData;
+        myChart.data.datasets[4].data = over1_5Data;
+        myChart.data.datasets[5].data = under1_5Data;
+        myChart.data.datasets[6].data = over2_5Data;
+        myChart.data.datasets[7].data = under2_5Data;
+        myChart.data.datasets[8].data = over3_5Data;
+        myChart.data.datasets[9].data = under3_5Data;
+        myChart.update();
     }
-
-    // Verifica se os dados estão em ordem
-    function isOrdered(array) {
-        for (let i = 1; i < array.length; i++) {
-            const prevDate = new Date(array[i - 1].data).getTime();
-            const currentDate = new Date(array[i].data).getTime();
-            if (prevDate > currentDate) return false;
+    
+    // Função para verificar se os dados estão em ordem
+    function isOrdered(data) {
+        for (let i = 1; i < data.length; i++) {
+            const currentDate = new Date(data[i].data);
+            const previousDate = new Date(data[i - 1].data);
+            if (currentDate < previousDate) return false;
+            if (currentDate.getTime() === previousDate.getTime()) {
+                if (data[i].hora < data[i - 1].hora || 
+                    (data[i].hora === data[i - 1].hora && data[i].minuto < data[i - 1].minuto)) return false;
+            }
         }
         return true;
     }
-
-    // Chama a função de atualização de gráficos quando o DOM estiver pronto
-    document.addEventListener('DOMContentLoaded', updateChart);
-
-
+    
+    
     // Configuração inicial do gráfico
     const chartData = {
         labels: [],
@@ -828,7 +821,7 @@
                 pointBackgroundColor: 'rgba(255, 0, 0, 1)', // Cor dos pontos vermelhos
                 hidden: true,
             },
-
+            
             {
                 label: 'Casa Vence',
                 data: [],
@@ -909,71 +902,71 @@
                 pointBackgroundColor: 'rgba(255, 105, 180, 1)', // Rosa claro sólido
                 hidden: true,
             },
-
-
+    
+            
         ]
     };
-
+    
     // Inicializando o gráfico
     const myChart = new Chart(ctx, {
-        type: 'line',
-        data: chartData,
-        options: {
-            scales: {
-                y: {
-
-                    position: 'right',
-                    ticks: {
-                        //stepSize: 5, // Define o intervalo dos ticks no eixo Y
-                        color: 'white'
-                    },
-                    grid: {
-                        color: 'rgba(255, 255, 255, 0.5)', // Cor das linhas de grade
-                        drawBorder: false,
-                        lineWidth: 1 // Espessura da linha de grade
-
-                    },
+    type: 'line',
+    data: chartData,
+    options: {
+        scales: {
+            y: {
+                
+                position: 'right',
+                ticks: {
+                    //stepSize: 5, // Define o intervalo dos ticks no eixo Y
+                    color: 'white'
                 },
-                x: {
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0)' // Torna a grade do eixo X invisível
-                    },
-                    ticks: {
-                        color: 'white',
-                        display: false // Desativa a exibição dos rótulos do eixo X
-
-                    },
-
-
-                }
+                grid: {
+                    color: 'rgba(255, 255, 255, 0.5)', // Cor das linhas de grade
+                    drawBorder: false,
+                    lineWidth: 1 // Espessura da linha de grade
+                    
+                },
             },
-            responsive: true,
-            plugins: {
-                legend: { display: true },
-                tooltip: {
-                    enabled: true,
-                    callbacks: {
-                        title: (context) => `Hora: ${context[0].label}`, // Exibe a hora
-                        label: (context) => {
-                            const index = context.dataIndex;
-                            const currentGame = displayData[index] || { ft: 'N/A', hora: 'N/A', minuto: 'N/A' };
-                            const previousGame = fetchedData.find(item => item.hora === currentGame.hora - 1 && item.minuto === currentGame.minuto) || {};
-
-                            return [
-                                `Placar: ${currentGame.ft}`,
-                            ];
-                        }
+            x: {
+                grid: {
+                    color: 'rgba(0, 0, 0, 0)' // Torna a grade do eixo X invisível
+                },
+                ticks: {
+                    color: 'white',
+                    display: false // Desativa a exibição dos rótulos do eixo X
+                    
+                },
+                
+                
+            }
+        },
+        responsive: true,
+        plugins: {
+            legend: { display: true },
+            tooltip: {
+                enabled: true,
+                callbacks: {
+                    title: (context) => `Hora: ${context[0].label}`, // Exibe a hora
+                    label: (context) => {
+                        const index = context.dataIndex;
+                        const currentGame = displayData[index] || { ft: 'N/A', hora: 'N/A', minuto: 'N/A' };
+                        const previousGame = fetchedData.find(item => item.hora === currentGame.hora - 1 && item.minuto === currentGame.minuto) || {};
+    
+                        return [
+                            `Placar: ${currentGame.ft}`,
+                        ];
                     }
                 }
             }
         }
+    }
     });
+    
+// Atualiza o gráfico com dados da API a cada 5 segundos
+setInterval(updateChart, 5000);
 
-    // Atualiza o gráfico com dados da API a cada 5 segundos
-    setInterval(updateChart, 5000);
-
-    // Atualiza o gráfico inicialmente
-    updateChart();
+// Atualiza o gráfico inicialmente
+updateChart();
 
 </script>
 
