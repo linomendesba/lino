@@ -1963,31 +1963,30 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
                 return;
             }
     
+            displayData = fetchedData.slice(-150);
+            const labels = displayData.map(item => `${item.hora}:${item.minuto.toString().padStart(2, '0')}`);
+            const golsData = [];
+            let previousGols = initialPercentageGols;
+    
             for (let i = 0; i < displayData.length; i++) {
                 const current = displayData[i];
                 const previous = getPreviousMatch(current);
-            
+    
                 if (previous) {
                     const [golsAAtual, golsBAtual] = current.ft.split(' x ').map(Number);
                     const [golsAAnterior, golsBAnterior] = previous.ft.split(' x ').map(Number);
-            
+    
                     if (golsAAnterior !== undefined && golsBAnterior !== undefined) {
                         const totalGolsAtual = golsAAtual + golsBAtual;
                         const totalGolsAnterior = golsAAnterior + golsBAnterior;
-            
+    
                         // Calcula a diferença entre os totais e ajusta o valor da linha no gráfico
                         const diferencaGols = totalGolsAtual - totalGolsAnterior;
-                        
-                        // Verifica se a quantidade de gols é a mesma e mantém o valor anterior
-                        if (diferencaGols !== 0) {
-                            previousGols += diferencaGols;
-                        }
-                        // Caso contrário, previousGols permanece o mesmo (movimento horizontal)
+                        previousGols += diferencaGols;  // Aplica a diferença diretamente
                     }
                 }
                 golsData.push(previousGols);
             }
-            
     
             golsplus.data.labels = labels;
             golsplus.data.datasets[0].data = golsData;
