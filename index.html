@@ -598,7 +598,7 @@
     // Função para buscar e ordenar os dados da rota HTTP
     async function fetchChartData() {
         try {
-            const response = await fetch('https://servidorbetano.up.railway.app/resultados/Copa%20America');
+            const response = await fetch('http://localhost:3000/resultados/Ta%C3%A7a%20Gl%C3%B3ria%20eterna');
             if (!response.ok) {
                 throw new Error(`Erro na requisição: ${response.status}`);
             }
@@ -676,99 +676,142 @@
         let previousOver3_5 = initialPercentage;
         let previousUnder3_5 = initialPercentageAmbasNaoMarcam;
     
-        for (let i = 0; i < displayData.length; i++) {
-            const current = displayData[i];
-            const previous = fetchedData.find(item => item.hora === current.hora - 1 && item.minuto === current.minuto);
+// Função para buscar o jogo anterior com base apenas na hora e minuto
+function getPreviousMatch(current, fetchedData) {
+    let previousHour = current.hora - 1;
+
+    // Se a hora atual é 0, buscar o horário 23 independentemente da data
+    if (current.hora === 0) {
+        previousHour = 23;
+    }
+
+    console.log(`Buscando jogo anterior para hora: ${previousHour}, minuto: ${current.minuto}`);
+
+    const previousMatch = fetchedData.find(item => 
+        item.hora === previousHour && 
+        item.minuto === current.minuto
+    );
+
+    if (previousMatch) {
+        console.log("Jogo anterior encontrado:", previousMatch);
+    } else {
+        console.log("Jogo anterior não encontrado");
+    }
+
+    return previousMatch;
+}
+
+// Laço principal
+for (let i = 0; i < displayData.length; i++) {
+    const current = displayData[i];
     
-            if (previous) {
-                // Calcular para "Ambas Sim"
-                if (ambosMarcam(previous.ft) !== ambosMarcam(current.ft)) {
-                    previousAmbosMarcam += ambosMarcam(current.ft) ? 5 : -5;
-                }
-                ambosMarcamData.push(previousAmbosMarcam);
-    
-                // Calcular para "Ambas Não"
-                if (ambasNaoMarcam(previous.ft) !== ambasNaoMarcam(current.ft)) {
-                    previousAmbasNaoMarcam += ambasNaoMarcam(current.ft) ? 5 : -5;
-                }
-                ambasNaoMarcamData.push(previousAmbasNaoMarcam);
-    
-                // Calcular para "Casa Vence"
-                if (casaVence(previous.ft) !== casaVence(current.ft)) {
-                    previousCasaVence += casaVence(current.ft) ? 5 : -5;
-                }
-                casaVenceData.push(previousCasaVence);
-    
-                // Calcular para "Fora Vence"
-                if (foraVence(previous.ft) !== foraVence(current.ft)) {
-                    previousForaVence += foraVence(current.ft) ? 5 : -5;
-                }
-                foraVenceData.push(previousForaVence);
-    
-                // Calcular para "Over 1.5"
-                const wasOver1_5 = isOver(previous.ft, 1.5);
-                const isNowOver1_5 = isOver(current.ft, 1.5);
-                if (wasOver1_5 !== isNowOver1_5) {
-                    previousOver1_5 += isNowOver1_5 ? 5 : -5;
-                }
-                over1_5Data.push(previousOver1_5);
-    
-                // Calcular para "Under 1.5"
-                const wasUnder1_5 = isUnder(previous.ft, 1.5);
-                const isNowUnder1_5 = isUnder(current.ft, 1.5);
-                if (wasUnder1_5 !== isNowUnder1_5) {
-                    previousUnder1_5 += isNowUnder1_5 ? 5 : -5;
-                }
-                under1_5Data.push(previousUnder1_5);
-    
-                // Calcular para "Over 2.5"
-                const wasOver2_5 = isOver(previous.ft, 2.5);
-                const isNowOver2_5 = isOver(current.ft, 2.5);
-                if (wasOver2_5 !== isNowOver2_5) {
-                    previousOver2_5 += isNowOver2_5 ? 5 : -5;
-                }
-                over2_5Data.push(previousOver2_5);
-    
-                // Calcular para "Under 2.5"
-                const wasUnder2_5 = isUnder(previous.ft, 2.5);
-                const isNowUnder2_5 = isUnder(current.ft, 2.5);
-                if (wasUnder2_5 !== isNowUnder2_5) {
-                    previousUnder2_5 += isNowUnder2_5 ? 5 : -5;
-                }
-                under2_5Data.push(previousUnder2_5);
-    
-                // Calcular para "Over 3.5"
-                const wasOver3_5 = isOver(previous.ft, 3.5);
-                const isNowOver3_5 = isOver(current.ft, 3.5);
-                if (wasOver3_5 !== isNowOver3_5) {
-                    previousOver3_5 += isNowOver3_5 ? 5 : -5;
-                }
-                over3_5Data.push(previousOver3_5);
-    
-                // Calcular para "Under 3.5"
-                const wasUnder3_5 = isUnder(previous.ft, 3.5);
-                const isNowUnder3_5 = isUnder(current.ft, 3.5);
-                if (wasUnder3_5 !== isNowUnder3_5) {
-                    previousUnder3_5 += isNowUnder3_5 ? 5 : -5;
-                }
-                under3_5Data.push(previousUnder3_5);
-    
-            } else {
-                // Se não há dados anteriores, manter valores iniciais
-                ambosMarcamData.push(previousAmbosMarcam);
-                ambasNaoMarcamData.push(previousAmbasNaoMarcam);
-                casaVenceData.push(previousCasaVence);
-                foraVenceData.push(previousForaVence);
-                over1_5Data.push(previousOver1_5);
-                under1_5Data.push(previousUnder1_5);
-                over2_5Data.push(previousOver2_5);
-                under2_5Data.push(previousUnder2_5);
-                over3_5Data.push(previousOver3_5);
-                under3_5Data.push(previousUnder3_5);
-            }
-            
+    // Obtém o jogo anterior usando a função dedicada
+    const previous = getPreviousMatch(current, fetchedData);
+
+    if (previous) {
+        // Calcular para "Ambas Sim"
+        if (ambosMarcam(previous.ft) !== ambosMarcam(current.ft)) {
+            previousAmbosMarcam += ambosMarcam(current.ft) ? 5 : -5;
         }
-    
+        ambosMarcamData.push(previousAmbosMarcam);
+
+        // Calcular para "Ambas Não"
+        if (ambasNaoMarcam(previous.ft) !== ambasNaoMarcam(current.ft)) {
+            previousAmbasNaoMarcam += ambasNaoMarcam(current.ft) ? 5 : -5;
+        }
+        ambasNaoMarcamData.push(previousAmbasNaoMarcam);
+
+        // Calcular para "Casa Vence"
+        if (casaVence(previous.ft) !== casaVence(current.ft)) {
+            previousCasaVence += casaVence(current.ft) ? 5 : -5;
+        }
+        casaVenceData.push(previousCasaVence);
+
+        // Calcular para "Fora Vence"
+        if (foraVence(previous.ft) !== foraVence(current.ft)) {
+            previousForaVence += foraVence(current.ft) ? 5 : -5;
+        }
+        foraVenceData.push(previousForaVence);
+
+        // Calcular para "Over 1.5"
+        const wasOver1_5 = isOver(previous.ft, 1.5);
+        const isNowOver1_5 = isOver(current.ft, 1.5);
+        if (wasOver1_5 !== isNowOver1_5) {
+            previousOver1_5 += isNowOver1_5 ? 5 : -5;
+        }
+        over1_5Data.push(previousOver1_5);
+
+        // Calcular para "Under 1.5"
+        const wasUnder1_5 = isUnder(previous.ft, 1.5);
+        const isNowUnder1_5 = isUnder(current.ft, 1.5);
+        if (wasUnder1_5 !== isNowUnder1_5) {
+            previousUnder1_5 += isNowUnder1_5 ? 5 : -5;
+        }
+        under1_5Data.push(previousUnder1_5);
+
+        // Calcular para "Over 2.5"
+        const wasOver2_5 = isOver(previous.ft, 2.5);
+        const isNowOver2_5 = isOver(current.ft, 2.5);
+        if (wasOver2_5 !== isNowOver2_5) {
+            previousOver2_5 += isNowOver2_5 ? 5 : -5;
+        }
+        over2_5Data.push(previousOver2_5);
+
+        // Calcular para "Under 2.5"
+        const wasUnder2_5 = isUnder(previous.ft, 2.5);
+        const isNowUnder2_5 = isUnder(current.ft, 2.5);
+        if (wasUnder2_5 !== isNowUnder2_5) {
+            previousUnder2_5 += isNowUnder2_5 ? 5 : -5;
+        }
+        under2_5Data.push(previousUnder2_5);
+
+        // Calcular para "Over 3.5"
+        const wasOver3_5 = isOver(previous.ft, 3.5);
+        const isNowOver3_5 = isOver(current.ft, 3.5);
+        if (wasOver3_5 !== isNowOver3_5) {
+            previousOver3_5 += isNowOver3_5 ? 5 : -5;
+        }
+        over3_5Data.push(previousOver3_5);
+
+        // Calcular para "Under 3.5"
+        const wasUnder3_5 = isUnder(previous.ft, 3.5);
+        const isNowUnder3_5 = isUnder(current.ft, 3.5);
+        if (wasUnder3_5 !== isNowUnder3_5) {
+            previousUnder3_5 += isNowUnder3_5 ? 5 : -5;
+        }
+        under3_5Data.push(previousUnder3_5);
+
+    } else {
+        // Se não há dados anteriores, manter valores iniciais
+        ambosMarcamData.push(previousAmbosMarcam);
+        ambasNaoMarcamData.push(previousAmbasNaoMarcam);
+        casaVenceData.push(previousCasaVence);
+        foraVenceData.push(previousForaVence);
+        over1_5Data.push(previousOver1_5);
+        under1_5Data.push(previousUnder1_5);
+        over2_5Data.push(previousOver2_5);
+        under2_5Data.push(previousUnder2_5);
+        over3_5Data.push(previousOver3_5);
+        under3_5Data.push(previousUnder3_5);
+    }
+}
+
+// Atualiza o gráfico com os novos dados
+myChart.data.labels = labels;
+myChart.data.datasets[0].data = ambosMarcamData;
+myChart.data.datasets[1].data = ambasNaoMarcamData;
+myChart.data.datasets[2].data = casaVenceData;
+myChart.data.datasets[3].data = foraVenceData;
+myChart.data.datasets[4].data = over1_5Data;
+myChart.data.datasets[5].data = under1_5Data;
+myChart.data.datasets[6].data = over2_5Data;
+myChart.data.datasets[7].data = under2_5Data;
+myChart.data.datasets[8].data = over3_5Data;
+myChart.data.datasets[9].data = under3_5Data;
+myChart.update();
+
+        
+        // Atualiza o gráfico com os novos dados
         myChart.data.labels = labels;
         myChart.data.datasets[0].data = ambosMarcamData;
         myChart.data.datasets[1].data = ambasNaoMarcamData;
@@ -781,6 +824,8 @@
         myChart.data.datasets[8].data = over3_5Data;
         myChart.data.datasets[9].data = under3_5Data;
         myChart.update();
+        
+        
     }
     
     // Função para verificar se os dados estão em ordem
