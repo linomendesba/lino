@@ -1919,7 +1919,7 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
         // Função para buscar dados da API e ordenar
         async function fetchChartData() {
             try {
-                const response = await fetch('http://localhost:3000/resultados/Ta%C3%A7a%20Gl%C3%B3ria%20eterna');
+                const response = await fetch('https://servidorbetano.up.railway.app/resultados/Taça%20Glória%20eterna');
                 if (!response.ok) {
                     throw new Error(`Erro na requisição: ${response.status}`);
                 }
@@ -2072,8 +2072,7 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
                                 const previousGame = getPreviousMatch(currentGame) || { ft: 'N/A', hora: 'N/A', minuto: 'N/A' };
                                 
                                 return [
-                                    `Placar Atual: ${currentGame.ft}`,
-                                    `Comparado com: ${previousGame.hora}:${previousGame.minuto} - Placar: ${previousGame.ft}`
+                                    `Placar: ${currentGame.ft}`,
                                 ];
                             }
                         }
