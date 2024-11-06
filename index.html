@@ -685,7 +685,7 @@ function getPreviousMatch(current, fetchedData) {
         previousHour = 23;
     }
 
-    console.log(`Buscando jogo anterior para hora: ${previousHour}, minuto: ${current.minuto}`);
+    //console.log(`Buscando jogo anterior para hora: ${previousHour}, minuto: ${current.minuto}`);
 
     const previousMatch = fetchedData.find(item => 
         item.hora === previousHour && 
@@ -693,9 +693,9 @@ function getPreviousMatch(current, fetchedData) {
     );
 
     if (previousMatch) {
-        console.log("Jogo anterior encontrado:", previousMatch);
+        //console.log("Jogo anterior encontrado:", previousMatch);
     } else {
-        console.log("Jogo anterior não encontrado");
+        //console.log("Jogo anterior não encontrado");
     }
 
     return previousMatch;
@@ -1901,7 +1901,7 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
         let fetchedData = [];
         let displayData = [];
         let initialPercentageGols = 50;
-    
+        
         // Função para verificar a ordenação dos dados
         function isOrdered(data) {
             for (let i = 1; i < data.length; i++) {
@@ -1919,7 +1919,7 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
         // Função para buscar dados da API e ordenar
         async function fetchChartData() {
             try {
-                const response = await fetch('https://servidorbetano.up.railway.app/resultados/Taça%20Glória%20eterna');
+                const response = await fetch('http://localhost:3000/resultados/Ta%C3%A7a%20Gl%C3%B3ria%20eterna');
                 if (!response.ok) {
                     throw new Error(`Erro na requisição: ${response.status}`);
                 }
@@ -1946,10 +1946,24 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
             }
         }
     
-        // Função para buscar o jogo anterior, independente da data
+        // Função para buscar o jogo do mesmo dia, uma hora atrás no mesmo minuto
         function getPreviousMatch(current) {
-            const previousHour = current.hora === 0 ? 23 : current.hora - 1;
+            let previousHour = current.hora === 0 ? 23 : current.hora - 1;
+            const currentDate = current.data.split("T")[0];  // Extraímos apenas a data (yyyy-mm-dd)
+    
+            // Se a hora for 0, ajustamos para buscar no dia anterior às 23h
+            if (current.hora === 0) {
+                const dateObj = new Date(current.data);
+                dateObj.setDate(dateObj.getDate() - 1);
+                return fetchedData.find(item => 
+                    item.data.split("T")[0] === dateObj.toISOString().split("T")[0] && 
+                    item.hora === previousHour && 
+                    item.minuto === current.minuto
+                );
+            }
+    
             return fetchedData.find(item => 
+                item.data.split("T")[0] === currentDate && 
                 item.hora === previousHour && 
                 item.minuto === current.minuto
             );
@@ -1980,9 +1994,19 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
                         const totalGolsAtual = golsAAtual + golsBAtual;
                         const totalGolsAnterior = golsAAnterior + golsBAnterior;
     
-                        // Calcula a diferença entre os totais e ajusta o valor da linha no gráfico
+                        // Calcula a diferença entre os totais de gols
                         const diferencaGols = totalGolsAtual - totalGolsAnterior;
-                        previousGols += diferencaGols;  // Aplica a diferença diretamente
+    
+                        // Aplica a lógica de movimentação da linha
+                        if (diferencaGols > 0) {
+                            // Aumenta previousGols pela diferença positiva para subir
+                            previousGols += diferencaGols;
+                        } else if (diferencaGols < 0) {
+                            // Diminui previousGols pela diferença negativa para descer
+                            previousGols += diferencaGols;
+                        } else {
+                            // Move para o lado mantendo o mesmo valor de previousGols
+                        }
                     }
                 }
                 golsData.push(previousGols);
@@ -1999,11 +2023,11 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
                 {
                     label: 'Gols Linha',
                     data: [],
-                    borderColor: 'rgba(255, 255, 0, 1)', // Linha amarela
-                    backgroundColor: 'rgba(255, 255, 0, 0.5)', // Fundo com amarelo semitransparente
+                    borderColor: 'rgba(0, 255, 0, 1)', // Linha verde cana
+                    backgroundColor: 'rgba(0, 255, 0, 0.5)', // Fundo com verde cana semitransparente
                     borderWidth: 2,
                     pointRadius: 3,
-                    pointBackgroundColor: 'rgba(255, 255, 0, 1)' // Pontos amarelos
+                    pointBackgroundColor: 'rgba(0, 255, 0, 1)' // Pontos verdes cana                    
                 }
             ]
         };
@@ -2045,7 +2069,12 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
                             label: (context) => {
                                 const index = context.dataIndex;
                                 const currentGame = displayData[index] || { ft: 'N/A', hora: 'N/A', minuto: 'N/A' };
-                                return [`Placar: ${currentGame.ft}`];
+                                const previousGame = getPreviousMatch(currentGame) || { ft: 'N/A', hora: 'N/A', minuto: 'N/A' };
+                                
+                                return [
+                                    `Placar Atual: ${currentGame.ft}`,
+                                    `Comparado com: ${previousGame.hora}:${previousGame.minuto} - Placar: ${previousGame.ft}`
+                                ];
                             }
                         }
                     }
@@ -2056,7 +2085,6 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
         setInterval(updateChart, 5000);
         updateChart();
     }
-    
     
     // Inicializar o gráfico ao carregar o script
     initializeChart();
