@@ -395,4 +395,5 @@ canvas {
 .live {
   display: none; /* Oculta inicialmente */
   margin-top: 20px;
+  margin-bottom: 40px; /* Aumenta o espaço após o vídeo */
 }
