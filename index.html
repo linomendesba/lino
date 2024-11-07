@@ -337,7 +337,21 @@
         </div>
 
     </div>
-
+    <div class="live-container">
+        <!-- Botão para expandir o vídeo -->
+        <button class="toggle-button" onclick="toggleVideo()">Expandir Vídeo</button>
+        
+        <!-- Div oculta que contém o vídeo -->
+        <div class="live" id="liveVideo">
+            <iframe 
+                src="https://vsa2.gambling-malta.com/vr-media-schedule/MediaViewer?sportType=MOTOR_CYCLE_SPEEDWAY&operator=BetanoBR" 
+                width="100%" 
+                height="360" 
+                allowfullscreen 
+                title="Video de visualização do Betano sobre corrida de motocicletas">
+            </iframe>
+        </div>
+    </div>
 
     <table id="tabelaResultados">
         <thead>
@@ -1925,6 +1939,21 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
                 devtools.open = false; // Reseta a flag para evitar múltiplos alertas
             }
         }, 1000);
+
+        function toggleVideo() {
+            // Seleciona a div do vídeo e o botão
+            const videoDiv = document.getElementById("liveVideo");
+            const button = document.querySelector(".toggle-button");
+
+            // Alterna a exibição do vídeo
+            if (videoDiv.style.display === "none" || videoDiv.style.display === "") {
+                videoDiv.style.display = "block";
+                button.textContent = "Contrair Vídeo";
+            } else {
+                videoDiv.style.display = "none";
+                button.textContent = "Expandir Vídeo";
+            }
+        }
 
 </script>
 

@@ -372,3 +372,27 @@ canvas {
 .maximamercado-td {
   background-color: #101318;
 }
+
+.live-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* Botão de expansão */
+.toggle-button {
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Estilos para a div do vídeo */
+.live {
+  display: none; /* Oculta inicialmente */
+  margin-top: 20px;
+}
