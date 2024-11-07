@@ -287,6 +287,22 @@
     <div class="chart-container">
         <canvas id="myChart" width="1600" height="300"></canvas> <!-- Gráfico existente -->
     </div>
+
+    <div class="live-container">
+        <!-- Botão para expandir o vídeo -->
+        <button class="toggle-button" onclick="toggleVideo()">Expandir Vídeo</button>
+        
+        <!-- Div oculta que contém o vídeo -->
+        <div class="live" id="liveVideo">
+            <iframe 
+                src="https://vsa2.gambling-malta.com/vr-media-schedule/MediaViewer?sportType=MOTOR_CYCLE_SPEEDWAY&operator=BetanoBR" 
+                width="100%" 
+                height="360" 
+                allowfullscreen 
+                title="Video de visualização do Betano sobre corrida de motocicletas">
+            </iframe>
+        </div>
+    </div>
     
     <div class="seletor-container">
 
@@ -337,21 +353,7 @@
         </div>
 
     </div>
-    <div class="live-container">
-        <!-- Botão para expandir o vídeo -->
-        <button class="toggle-button" onclick="toggleVideo()">Expandir Vídeo</button>
-        
-        <!-- Div oculta que contém o vídeo -->
-        <div class="live" id="liveVideo">
-            <iframe 
-                src="https://vsa2.gambling-malta.com/vr-media-schedule/MediaViewer?sportType=MOTOR_CYCLE_SPEEDWAY&operator=BetanoBR" 
-                width="100%" 
-                height="360" 
-                allowfullscreen 
-                title="Video de visualização do Betano sobre corrida de motocicletas">
-            </iframe>
-        </div>
-    </div>
+
 
     <table id="tabelaResultados">
         <thead>
