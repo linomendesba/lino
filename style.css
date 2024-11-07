@@ -380,3 +380,14 @@ canvas {
 .maximaplacar-td {
   background-color: #444;
 }
+
+.maximamercado-th {
+  background-color: #ffffff;
+  color: #fe3c00;
+  font-weight: 1000;
+  font-size: 18px;
+}
+
+.maximamercado-td {
+  background-color: #444;
+}
