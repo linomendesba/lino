@@ -379,9 +379,8 @@ canvas {
   margin: 0 auto;
   box-sizing: border-box;
   text-align: center;
+  
 }
-
-
 
 /* Estilos para a div do vídeo */
 .live {
@@ -409,4 +408,18 @@ canvas {
 .button-container {
   display: flex;
   justify-content: center; /* Centraliza o botão horizontalmente */
+}
+
+.live iframe {
+  border: none; /* Remove a borda do iframe */
+  border-radius: 15px;
+}
+
+.live-container {
+  border: none; /* Remove a borda do container */
+
+}
+
+p {
+  font-size: 10px;
 }
