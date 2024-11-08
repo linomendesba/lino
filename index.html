@@ -76,6 +76,7 @@
                         <option value="copa.html">Copa</option>
                         <option value="premier.html">Premier</option>
                         <option value="campeoes.html">Campeões</option>
+                        <option value="todas.html">Todas as ligas</option>
                         <!-- Outras opções -->
                     </select>
                 </div>
@@ -2341,6 +2342,14 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
     }
 
     fetchData();
+
+    function redirecionar(select) {
+        const url = select.value;
+        // Verifica se o link é um dos dois específicos
+        if (url === "https://t.me/mentorlino" || url === "https://www.youtube.com/@Mentorlino") {
+            window.open(url, '_blank'); // Abre o link em uma nova aba
+        }
+    }
 </script>
 </body>
 </html>
