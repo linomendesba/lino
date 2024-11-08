@@ -1956,16 +1956,17 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
             // Seleciona a div do vídeo e o botão
             const videoDiv = document.getElementById("liveVideo");
             const button = document.querySelector(".toggle-button");
-
+        
             // Alterna a exibição do vídeo
             if (videoDiv.style.display === "none" || videoDiv.style.display === "") {
-                videoDiv.style.display = "block";
-                button.textContent = "Contrair Vídeo";
+                videoDiv.style.display = "block"; // Mostra o vídeo
+                button.textContent = "Contrair Vídeo"; // Altera o texto do botão
             } else {
-                videoDiv.style.display = "none";
-                button.textContent = "Expandir Vídeo";
+                videoDiv.style.display = "none"; // Esconde o vídeo
+                button.textContent = "Expandir Vídeo"; // Altera o texto do botão
             }
         }
+        
 
 </script>
 
