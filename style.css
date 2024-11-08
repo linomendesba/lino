@@ -417,5 +417,5 @@ canvas {
 .button-container {
   display: flex;
   justify-content: center; /* Centraliza o botão horizontalmente */
-  margin-bottom: 10px; /* Espaço entre o botão e o vídeo */
+  margin-bottom: 5px; /* Espaço entre o botão e o vídeo */
 }
