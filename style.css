@@ -397,3 +397,9 @@ canvas {
   margin-top: 20px;
   margin-bottom: 40px; /* Aumenta o espaço após o vídeo */
 }
+
+.small-text {
+  font-size: 10px; /* Tamanho menor da fonte */
+  color: #fff8f8; /* Cor mais clara */
+  text-align: center; /* Centraliza o texto */
+}
