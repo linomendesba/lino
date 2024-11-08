@@ -310,7 +310,8 @@
     
             <p>⚠️Instale a extensão "Ignore X-Frame Headers" no seu navegador⚠️</p>
         </div>
-    </div>    
+    </div>
+     
     
     
     
@@ -1953,8 +1954,9 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
         }, 1000);
 
         function toggleVideo() {
-            // Seleciona a div do vídeo e o botão
+            // Seleciona a div do vídeo, o botão e o overlay
             const videoDiv = document.getElementById("liveVideo");
+            const overlayDiv = videoDiv.querySelector(".iframe-overlay"); // Seleciona o overlay dentro da div do vídeo
             const button = document.querySelector(".toggle-button");
         
             // Verifica o estilo computado da div para saber se está visível
@@ -1963,9 +1965,11 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
             // Alterna a visibilidade
             if (isVisible) {
                 videoDiv.style.display = "none";  // Esconde o vídeo
+                overlayDiv.style.display = "none"; // Esconde o overlay
                 button.textContent = "Expandir Vídeo";  // Altera o texto do botão
             } else {
                 videoDiv.style.display = "block";  // Exibe o vídeo
+                overlayDiv.style.display = "block"; // Exibe o overlay
                 button.textContent = "Contrair Vídeo";  // Altera o texto do botão
             }
         }
