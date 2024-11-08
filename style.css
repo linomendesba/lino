@@ -413,3 +413,9 @@ canvas {
   background: rgba(255, 255, 255, 0); /* transparente */
   z-index: 10; /* Garante que o overlay fique sobre o iframe */
 }
+
+.button-container {
+  display: flex;
+  justify-content: center; /* Centraliza o botão horizontalmente */
+  margin-bottom: 10px; /* Espaço entre o botão e o vídeo */
+}
