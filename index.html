@@ -1957,13 +1957,13 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
             const videoDiv = document.getElementById("liveVideo");
             const button = document.querySelector(".toggle-button");
         
-            // Alterna a exibição do vídeo
+            // Verifica se o vídeo está oculto
             if (videoDiv.style.display === "none" || videoDiv.style.display === "") {
-                videoDiv.style.display = "block"; // Mostra o vídeo
-                button.textContent = "Contrair Vídeo"; // Altera o texto do botão
+                videoDiv.style.display = "block";  // Exibe o vídeo
+                button.textContent = "Contrair Vídeo";  // Altera o texto do botão
             } else {
-                videoDiv.style.display = "none"; // Esconde o vídeo
-                button.textContent = "Expandir Vídeo"; // Altera o texto do botão
+                videoDiv.style.display = "none";  // Oculta o vídeo
+                button.textContent = "Expandir Vídeo";  // Altera o texto do botão
             }
         }
         
