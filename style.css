@@ -398,8 +398,18 @@ canvas {
   margin-bottom: 40px; /* Aumenta o espaço após o vídeo */
 }
 
-.small-text {
-  font-size: 10px; /* Tamanho menor da fonte */
-  color: #fff8f8; /* Cor mais clara */
-  text-align: center; /* Centraliza o texto */
+/* Estilos para o container do vídeo */
+.live-container {
+  position: relative;
+}
+
+/* Estilos para o overlay invisível */
+.iframe-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0); /* transparente */
+  z-index: 10; /* Garante que o overlay fique sobre o iframe */
 }

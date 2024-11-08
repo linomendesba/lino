@@ -293,7 +293,7 @@
         <button class="toggle-button" onclick="toggleVideo()">Expandir Vídeo</button>
     
         <!-- Div oculta que contém o vídeo -->
-        <div class="live" id="liveVideo" style="position: relative;">
+        <div class="live" id="liveVideo">
             <iframe 
                 src="https://stoiximan-br.live.inspiredvss.co.uk/inggWebViewer/?cust=stoiximan-br&ch=soccercopabr" 
                 width="100%" 
@@ -303,13 +303,14 @@
             </iframe>
             
             <!-- Overlay invisível para bloquear interações com o iframe -->
-            <div class="iframe-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0); z-index: 10;" 
-                 oncontextmenu="return false;" onclick="return false;">
+            <div class="iframe-overlay" 
+                 oncontextmenu="return false;" 
+                 onclick="return false;">
             </div>
     
             <p>⚠️Instale a extensão "Ignore X-Frame Headers" no seu navegador⚠️</p>
         </div>
-    </div>
+    </div>    
     
     
     
