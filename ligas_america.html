@@ -270,23 +270,23 @@
 
         <h2>Ranking</h2>
 
-    <div id="market-selector">
-        <label for="market">Mercado:</label>
-        <select id="market">
-            <option value="ambos-sim">Ambas Sim</option>
-            <option value="ambos-nao">Ambas Não</option>
-            <option value="over1_5">Over 1.5</option>
-            <option value="under1_5">Under 1.5</option>
-            <option value="over2_5">Over 2.5</option>
-            <option value="under2_5">Under 2.5</option>
-            <option value="over3_5">Over 3.5</option>
-            <option value="under3_5">Under 3.5</option>
-            <option value="casaVence">Casa Vence</option>
-            <option value="foraVence">Fora Vence</option>
-            <option value="cincoMaisGols">5 ou mais Gols</option>
-        </select>
-        <button id="toggle-ranking">Mostrar Ranking</button>
-    </div>
+        <div class="seletor-resultado">
+            <label for="seletorResultado">Mercado:</label>
+            <select id="seletorResultado">
+                <option value="ambasMarcam" selected>Ambas Sim</option>
+                <option value="ambasNaoMarcam">Ambas Não</option>
+                <option value="casaVence">Casa vence</option>
+                <option value="foraVence">Fora vence</option>
+                <option value="empate">Empate</option> <!-- Novo mercado de empate -->
+                <option value="over1.5">Over 1.5</option>
+                <option value="under1.5">Under 1.5</option>
+                <option value="over2.5">Over 2.5</option>
+                <option value="under2.5">Under 2.5</option>
+                <option value="over3.5">Over 3.5</option>
+                <option value="under3.5">Under 3.5</option>
+                <option value="over5">Over 5+</option>
+            </select>
+          </div>
     
     <div id="ranking" class="hidden"></div>
     
@@ -521,36 +521,38 @@
             
                             colunaMinuto.appendChild(placar);
             
-                            // Lógica de verificação de acertos
-                            const selecaoResultado = document.querySelector("#seletorResultado").value;
-                            let acerto = false;
-                            const resultadoA = parseInt(placarAtual.split(' x ')[0]);
-                            const resultadoB = parseInt(placarAtual.split(' x ')[1]);
-        
-                            // Verificações de acerto
-                            if (selecaoResultado === "ambasMarcam") {
-                                acerto = resultadoA > 0 && resultadoB > 0;
-                            } else if (selecaoResultado === "ambasNaoMarcam") {
-                                acerto = resultadoA === 0 || resultadoB === 0;
-                            } else if (selecaoResultado === "over1.5") {
-                                acerto = (resultadoA + resultadoB) > 1.5; // Condição para Over 1.5
-                            } else if (selecaoResultado === "under1.5") {
-                                acerto = (resultadoA + resultadoB) <= 1.5; // Condição para Under 1.5
-                            } else if (selecaoResultado === "over2.5") {
-                                acerto = (resultadoA + resultadoB) > 2.5;
-                            } else if (selecaoResultado === "under2.5") {
-                                acerto = (resultadoA + resultadoB) <= 2.5;
-                            } else if (selecaoResultado === "over3.5") {
-                                acerto = (resultadoA + resultadoB) > 3.5;
-                            } else if (selecaoResultado === "under3.5") {
-                                acerto = (resultadoA + resultadoB) <= 3.5;
-                            } else if (selecaoResultado === "over5") {
-                                acerto = (resultadoA + resultadoB) > 5;
-                            } else if (selecaoResultado === "casaVence") {
-                                acerto = resultadoA > resultadoB;
-                            } else if (selecaoResultado === "foraVence") {
-                                acerto = resultadoB > resultadoA;
-                            }
+                              // Lógica de verificação de acertos
+                              const selecaoResultado = document.querySelector("#seletorResultado").value;
+                              let acerto = false;
+                              const resultadoA = parseInt(placarAtual.split(' x ')[0]);
+                              const resultadoB = parseInt(placarAtual.split(' x ')[1]);
+  
+                              // Verificações de acerto
+                              if (selecaoResultado === "ambasMarcam") {
+                                  acerto = resultadoA > 0 && resultadoB > 0;
+                              } else if (selecaoResultado === "ambasNaoMarcam") {
+                                  acerto = resultadoA === 0 || resultadoB === 0;
+                              } else if (selecaoResultado === "over1.5") {
+                                  acerto = (resultadoA + resultadoB) > 1.5;
+                              } else if (selecaoResultado === "under1.5") {
+                                  acerto = (resultadoA + resultadoB) <= 1.5;
+                              } else if (selecaoResultado === "over2.5") {
+                                  acerto = (resultadoA + resultadoB) > 2.5;
+                              } else if (selecaoResultado === "under2.5") {
+                                  acerto = (resultadoA + resultadoB) <= 2.5;
+                              } else if (selecaoResultado === "over3.5") {
+                                  acerto = (resultadoA + resultadoB) > 3.5;
+                              } else if (selecaoResultado === "under3.5") {
+                                  acerto = (resultadoA + resultadoB) <= 3.5;
+                              } else if (selecaoResultado === "over5") {
+                                  acerto = (resultadoA + resultadoB) > 5;
+                              } else if (selecaoResultado === "casaVence") {
+                                  acerto = resultadoA > resultadoB;
+                              } else if (selecaoResultado === "foraVence") {
+                                  acerto = resultadoB > resultadoA;
+                              } else if (selecaoResultado === "empate") {
+                                  acerto = resultadoA === resultadoB; // Novo mercado de empate
+                              }
         
                             // Aplicação de cores
                             colunaMinuto.style.backgroundColor = acerto ? "#018b06" : "#be0e02"; // Verde se acerto, vermelho se não
@@ -1538,90 +1540,94 @@ updateGolsChart(); // Chama a função para atualizar inicialmente
         return data.slice(-480).reverse();
     }
 
-    // Função para calcular as porcentagens de acordo com o mercado
-    function calculatePercentage(data, market) {
-        let greens = 0;
-        let reds = 0;
-
-        data.forEach(game => {
-            const [scoreA, scoreB] = game.ft.split(" x ").map(Number);
-
-            switch (market) {
-                case "ambasMarcam":
-                    if (scoreA > 0 && scoreB > 0) greens++;
-                    else reds++;
-                    break;
-                case "ambasNaoMarcam":
-                    if (scoreA === 0 || scoreB === 0) greens++;
-                    else reds++;
-                    break;
-                case "casaVence":
-                    if (scoreA > scoreB) greens++;
-                    else reds++;
-                    break;
-                case "foraVence":
-                    if (scoreA < scoreB) greens++;
-                    else reds++;
-                    break;
-                case "over1.5":
-                    if (scoreA + scoreB > 1.5) greens++;
-                    else reds++;
-                    break;
-                case "under1.5":
-                    if (scoreA + scoreB <= 1.5) greens++;
-                    else reds++;
-                    break;
-                case "over2.5":
-                    if (scoreA + scoreB > 2.5) greens++;
-                    else reds++;
-                    break;
-                case "under2.5":
-                    if (scoreA + scoreB <= 2.5) greens++;
-                    else reds++;
-                    break;
-                case "over3.5":
-                    if (scoreA + scoreB > 3.5) greens++;
-                    else reds++;
-                    break;
-                case "under3.5":
-                    if (scoreA + scoreB <= 3.5) greens++;
-                    else reds++;
-                    break;
-                case "over5":
-                    if (scoreA + scoreB > 5) greens++;
-                    else reds++;
-                    break;
-                default:
-                    break;
-            }
+        // Função para calcular as porcentagens de acordo com o mercado
+        function calculatePercentage(data, market) {
+            let greens = 0;
+            let reds = 0;
+  
+            data.forEach(game => {
+                const [scoreA, scoreB] = game.ft.split(" x ").map(Number);
+  
+                switch (market) {
+                    case "ambasMarcam":
+                        if (scoreA > 0 && scoreB > 0) greens++;
+                        else reds++;
+                        break;
+                    case "ambasNaoMarcam":
+                        if (scoreA === 0 || scoreB === 0) greens++;
+                        else reds++;
+                        break;
+                    case "casaVence":
+                        if (scoreA > scoreB) greens++;
+                        else reds++;
+                        break;
+                    case "foraVence":
+                        if (scoreA < scoreB) greens++;
+                        else reds++;
+                        break;
+                    case "empate": // Nova condição para o mercado de empate
+                        if (scoreA === scoreB) greens++;
+                        else reds++;
+                        break;
+                    case "over1.5":
+                        if (scoreA + scoreB > 1.5) greens++;
+                        else reds++;
+                        break;
+                    case "under1.5":
+                        if (scoreA + scoreB <= 1.5) greens++;
+                        else reds++;
+                        break;
+                    case "over2.5":
+                        if (scoreA + scoreB > 2.5) greens++;
+                        else reds++;
+                        break;
+                    case "under2.5":
+                        if (scoreA + scoreB <= 2.5) greens++;
+                        else reds++;
+                        break;
+                    case "over3.5":
+                        if (scoreA + scoreB > 3.5) greens++;
+                        else reds++;
+                        break;
+                    case "under3.5":
+                        if (scoreA + scoreB <= 3.5) greens++;
+                        else reds++;
+                        break;
+                    case "over5":
+                        if (scoreA + scoreB > 5) greens++;
+                        else reds++;
+                        break;
+                    default:
+                        break;
+                }
+            });
+  
+            const total = greens + reds;
+            return {
+                greens: ((greens / total) * 100).toFixed(1),
+                reds: ((reds / total) * 100).toFixed(1)
+            };
+        }
+  
+        // Atualizar a interface com os resultados ao selecionar um novo mercado
+        document.getElementById("seletorResultado").addEventListener("change", async (event) => {
+            const market = event.target.value;
+            const games = await fetchResults();
+            const percentages = calculatePercentage(games, market);
+  
+            document.getElementById("greenPercentage").innerText = `Greens: ${percentages.greens}%`;
+            document.getElementById("redPercentage").innerText = `Reds: ${percentages.reds}%`;
         });
-
-        const total = greens + reds;
-        return {
-            greens: ((greens / total) * 100).toFixed(1),
-            reds: ((reds / total) * 100).toFixed(1)
-        };
-    }
-
-    // Atualizar a interface com os resultados ao selecionar um novo mercado
-    document.getElementById("seletorResultado").addEventListener("change", async (event) => {
-        const market = event.target.value;
-        const games = await fetchResults();
-        const percentages = calculatePercentage(games, market);
-
-        document.getElementById("greenPercentage").innerText = `Greens: ${percentages.greens}%`;
-        document.getElementById("redPercentage").innerText = `Reds: ${percentages.reds}%`;
-    });
-
-    // Carregar os resultados para o mercado padrão ao iniciar
-    window.addEventListener("load", async () => {
-        const market = document.getElementById("seletorResultado").value;
-        const games = await fetchResults();
-        const percentages = calculatePercentage(games, market);
-
-        document.getElementById("greenPercentage").innerText = `Greens: ${percentages.greens}%`;
-        document.getElementById("redPercentage").innerText = `Reds: ${percentages.reds}%`;
-    });
+  
+        // Carregar os resultados para o mercado padrão ao iniciar
+        window.addEventListener("load", async () => {
+            const market = document.getElementById("seletorResultado").value;
+            const games = await fetchResults();
+            const percentages = calculatePercentage(games, market);
+  
+            document.getElementById("greenPercentage").innerText = `Greens: ${percentages.greens}%`;
+            document.getElementById("redPercentage").innerText = `Reds: ${percentages.reds}%`;
+        });
 
        // Função para buscar os dados da rota
        async function fetchResults() {
