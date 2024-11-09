@@ -477,6 +477,7 @@ p {
   padding: 0 16px; /* Adiciona um padding nas laterais */
   margin: 0 auto; /* Centraliza horizontalmente */
   margin-bottom: 25px;
+  cursor: pointer;
 }
 
 .publicidade-container a img {
