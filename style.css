@@ -491,4 +491,7 @@ p {
   transform: scale(1.03); /* Aplica um zoom de 3% ao passar o mouse */
 }
     
+canvas {
+  cursor: pointer;
+}
     
