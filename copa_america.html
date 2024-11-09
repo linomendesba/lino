@@ -671,7 +671,7 @@
     // Função para buscar e ordenar os dados da rota HTTP
     async function fetchChartData() {
         try {
-            const response = await fetch('http://localhost:3000/resultados/Ta%C3%A7a%20Gl%C3%B3ria%20eterna');
+            const response = await fetch('https://servidorbetano.up.railway.app/resultados/Copa%20America');
             if (!response.ok) {
                 throw new Error(`Erro na requisição: ${response.status}`);
             }
