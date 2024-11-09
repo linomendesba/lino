@@ -1,6 +1,7 @@
 body {
   font-family: 'Roboto', Arial, sans-serif;
-  margin: 20px;
+  margin: 0;
+  padding: 0;
   background-color: #1c1f26;
   color: #ffffff;
   font-weight: 200; /* Negrito */
