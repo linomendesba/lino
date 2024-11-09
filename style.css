@@ -424,3 +424,17 @@ p {
   font-size: 10px;
 }
 
+        /* Encapsula os estilos apenas na div com a classe "betano-container" */
+        .betano-container {
+          margin: 0;
+          padding: 0;
+          height: 100vh; /* 100% da altura da viewport */
+          overflow: hidden;
+          position: relative;
+          
+      }
+      .betano-container iframe {
+          width: 100%;
+          height: 100%;
+          border: none;
+      }
