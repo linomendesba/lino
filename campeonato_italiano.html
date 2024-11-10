@@ -1638,6 +1638,40 @@ updateGolsChart(); // Chama a função para atualizar inicialmente
             document.getElementById("redPercentage").innerText = `Reds: ${percentages.reds}%`;
         });
 
+       // Função para buscar os dados da rota
+       async function fetchResults() {
+        const response = await fetch("https://servidorbetano.up.railway.app/resultados/Taça%20Glória%20eterna");
+        const data = await response.json();
+        // Seleciona os 240 jogos mais recentes
+        return data.slice(-240).reverse();
+    }
+
+    // Função para calcular o total de gols e a média de gols por hora
+    function calculateGoalStats(data) {
+        let totalGols = 0;
+        const totalHorasJogadas = 12; // Total de 12 horas para 240 jogos de 3 minutos cada
+
+        data.forEach(game => {
+            const [scoreA, scoreB] = game.ft.split(" x ").map(Number);
+            totalGols += scoreA + scoreB;
+        });
+
+        const mediaGolsHora = (totalGols / totalHorasJogadas).toFixed(2);
+        return {
+            totalGols,
+            mediaGolsHora
+        };
+    }
+
+    // Atualizar a interface com os resultados
+    document.getElementById("seletorResultado").addEventListener("change", async () => {
+        const games = await fetchResults();
+        const stats = calculateGoalStats(games);
+
+        document.getElementById("totalGols").innerText = `Gols: ${stats.totalGols}`;
+        document.getElementById("mediaGolsHora").innerText = `Média Gols Por Hora: ${stats.mediaGolsHora}`;
+    });
+
     // Carregar os resultados ao iniciar
     window.addEventListener("load", async () => {
         const games = await fetchResults();
