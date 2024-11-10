@@ -494,4 +494,21 @@ p {
 canvas {
   cursor: pointer;
 }
-    
+  
+#resumojogos-charts-container {
+  display: flex;
+  justify-content: center; /* Centraliza os gráficos horizontalmente */
+  width: 100%;
+  max-width: 1800px;
+  gap: 10px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.resumojogos-chart-box {
+  flex: 1 1 0; /* Faz com que cada gráfico ocupe um espaço igual e se ajuste conforme o tamanho disponível */
+  min-width: 70px; /* Define a largura mínima de cada gráfico */
+  height: 300px;
+  max-width: calc(100% - 20px); /* Garante que os gráficos não ultrapassem a largura do container */
+  flex-shrink: 0; /* Impede que os gráficos encolham em telas menores */
+}
