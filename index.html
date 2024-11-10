@@ -1948,42 +1948,34 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
 </script>
 <script>
     
-    // Desabilitar clique direito
-    document.addEventListener("contextmenu", function(e) {
-        e.preventDefault();
-    });
-
-    // Bloquear F12, Ctrl + Shift + I e outras teclas de desenvolvedor
-    document.addEventListener("keydown", function(e) {
-        // Bloqueia F12
-        if (e.key === "F12" || 
-            (e.ctrlKey && e.shiftKey && e.key === "I")) {
+        // Desabilitar clique direito
+        document.addEventListener("contextmenu", function(e) {
             e.preventDefault();
-        }
+        });
 
-        // Bloquear Ctrl + U (ver código fonte)
-        if (e.ctrlKey && e.key === "u") {
-            e.preventDefault();
-        }
+        // Bloquear F12 e Ctrl + Shift + I
+        document.addEventListener("keydown", function(e) {
+            // Bloqueia F12
+            if (e.key === "F12" || 
+                (e.ctrlKey && e.shiftKey && e.key === "I")) {
+                e.preventDefault();
+            }
 
-        // Bloquear Ctrl + Shift + J (abrir console)
-        if (e.ctrlKey && e.shiftKey && e.key === "J") {
-            e.preventDefault();
-        }
+            // Bloquear Ctrl + U
+            if (e.ctrlKey && e.key === "u") {
+                e.preventDefault();
+            }
 
-        // Bloquear Ctrl + Shift + C (abrir ferramenta de inspeção)
-        if (e.ctrlKey && e.shiftKey && e.key === "C") {
-            e.preventDefault();
-        }
+            // Bloquear Ctrl + Shift + J (para abrir console)
+            if (e.ctrlKey && e.shiftKey && e.key === "J") {
+                e.preventDefault();
+            }
 
-        // Bloquear Ctrl + S (salvar página)
-        if (e.ctrlKey && e.key === 's') {
-            e.preventDefault(); // Bloqueia o salvar da página
-            //alert('Salvar a página está desabilitado!');
-        }
-    });
-
-        
+            // Bloquear Ctrl + Shift + C (para abrir ferramenta de inspeção)
+            if (e.ctrlKey && e.shiftKey && e.key === "C") {
+                e.preventDefault();
+            }
+        });
 
         // Detectar se o console está aberto (método baseado em desempenho)
         const devtools = { open: false };
