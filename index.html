@@ -2300,85 +2300,88 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
             const data = await response.json();
             const recentData = data.slice(-480);
 
-            const mercadosFixos = [
-                "Ambas Sim", "Ambas Não", "Over 1.5", "Under 1.5",
-                "Over 2.5", "Under 2.5", "Over 3.5", "Under 3.5",
-                "Casa Vence", "Fora Vence", "5 ou Mais Gols"
-            ];
+        // Organizando os mercados na ordem desejada
+        const mercadosFixos = [
+            "Ambas Sim", "Ambas Não", "Casa Vence", "Fora Vence", "Empate",
+            "Over 1.5", "Under 1.5", "Over 2.5", "Under 2.5", "Over 3.5", "Under 3.5",
+            "5 ou Mais Gols"
+        ];
 
-            const headerRow = document.getElementById('maximamercado-header');
-            if (headerRow.children.length === 0) {
-                mercadosFixos.forEach(mercado => {
-                    const th = document.createElement('th');
-                    th.textContent = mercado;
-                    th.classList.add('maximamercado-th');
-                    headerRow.appendChild(th);
-                });
-            }
-
-            let mercados = {};
+        const headerRow = document.getElementById('maximamercado-header');
+        if (headerRow.children.length === 0) {
             mercadosFixos.forEach(mercado => {
-                mercados[mercado] = { max: 0, atual: 0, lastIndex: -1 };
+                const th = document.createElement('th');
+                th.textContent = mercado;
+                th.classList.add('maximamercado-th');
+                headerRow.appendChild(th);
             });
+        }
 
-            for (let i = 0; i < recentData.length; i++) {
-                const jogo = recentData[i];
-                const [golCasa, golFora] = jogo.ft.split(' x ').map(Number);
+        let mercados = {};
+        mercadosFixos.forEach(mercado => {
+            mercados[mercado] = { max: 0, atual: 0, lastIndex: -1 };
+        });
 
-                const condicoes = {
-                    "Ambas Sim": golCasa > 0 && golFora > 0,
-                    "Ambas Não": golCasa === 0 || golFora === 0,
-                    "Over 1.5": (golCasa + golFora) > 1.5,
-                    "Under 1.5": (golCasa + golFora) <= 1.5,
-                    "Over 2.5": (golCasa + golFora) > 2.5,
-                    "Under 2.5": (golCasa + golFora) <= 2.5,
-                    "Over 3.5": (golCasa + golFora) > 3.5,
-                    "Under 3.5": (golCasa + golFora) <= 3.5,
-                    "Casa Vence": golCasa > golFora,
-                    "Fora Vence": golFora > golCasa,
-                    "5 ou Mais Gols": (golCasa + golFora) >= 5
-                };
+        for (let i = 0; i < recentData.length; i++) {
+            const jogo = recentData[i];
+            const [golCasa, golFora] = jogo.ft.split(' x ').map(Number);
 
-                for (let mercado in condicoes) {
-                    if (condicoes[mercado]) {
-                        if (mercados[mercado].lastIndex !== -1) {
-                            const jogosSemMercado = i - mercados[mercado].lastIndex - 1;
-                            mercados[mercado].max = Math.max(mercados[mercado].max, jogosSemMercado);
-                        }
-                        mercados[mercado].lastIndex = i;
-                        mercados[mercado].atual = 0;
-                    } else {
-                        mercados[mercado].atual++;
+            const condicoes = {
+                "Ambas Sim": golCasa > 0 && golFora > 0,
+                "Ambas Não": golCasa === 0 || golFora === 0,
+                "Casa Vence": golCasa > golFora,
+                "Fora Vence": golFora > golCasa,
+                "Empate": golCasa === golFora,
+                "Over 1.5": (golCasa + golFora) > 1.5,
+                "Under 1.5": (golCasa + golFora) <= 1.5,
+                "Over 2.5": (golCasa + golFora) > 2.5,
+                "Under 2.5": (golCasa + golFora) <= 2.5,
+                "Over 3.5": (golCasa + golFora) > 3.5,
+                "Under 3.5": (golCasa + golFora) <= 3.5,
+                "5 ou Mais Gols": (golCasa + golFora) >= 5
+            };
+
+            for (let mercado in condicoes) {
+                if (condicoes[mercado]) {
+                    if (mercados[mercado].lastIndex !== -1) {
+                        const jogosSemMercado = i - mercados[mercado].lastIndex - 1;
+                        mercados[mercado].max = Math.max(mercados[mercado].max, jogosSemMercado);
                     }
+                    mercados[mercado].lastIndex = i;
+                    mercados[mercado].atual = 0;
+                } else {
+                    mercados[mercado].atual++;
                 }
             }
-
-            const tableBody = document.getElementById('maximamercado-resultados');
-            let row = tableBody.querySelector('tr');
-
-            if (!row) {
-                row = document.createElement('tr');
-                tableBody.appendChild(row);
-            } else {
-                row.innerHTML = "";
-            }
-
-            mercadosFixos.forEach(mercado => {
-                const result = mercados[mercado];
-                const td = document.createElement('td');
-                td.innerHTML = `${result.max} / ${result.atual}`;
-                td.classList.add('maximamercado-td');
-                row.appendChild(td);
-            });
-
-            setTimeout(fetchData, 10000);
-
-        } catch (error) {
-            console.error("Erro ao buscar os dados:", error);
         }
-    }
 
-    fetchData();
+        const tableBody = document.getElementById('maximamercado-resultados');
+        let row = tableBody.querySelector('tr');
+
+        if (!row) {
+            row = document.createElement('tr');
+            tableBody.appendChild(row);
+        } else {
+            row.innerHTML = "";
+        }
+
+        // Preenche a tabela com os resultados na ordem correta
+        mercadosFixos.forEach(mercado => {
+            const result = mercados[mercado];
+            const td = document.createElement('td');
+            td.innerHTML = `${result.max} / ${result.atual}`;
+            td.classList.add('maximamercado-td');
+            row.appendChild(td);
+        });
+
+        setTimeout(fetchData, 10000);
+
+    } catch (error) {
+        console.error("Erro ao buscar os dados:", error);
+    }
+}
+
+fetchData();
 
     function redirecionar(select) {
         const url = select.value;
