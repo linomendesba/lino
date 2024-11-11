@@ -497,17 +497,16 @@ canvas {
   
 #resumojogos-charts-container {
   display: flex;
-  justify-content: center; /* Centraliza horizontalmente */
-  align-items: center; /* Centraliza verticalmente */
+  justify-content: center; /* Centraliza os gráficos horizontalmente */
+  align-items: center; /* Centraliza os gráficos verticalmente */
   width: 100%;
   max-width: 1800px;
   gap: 10px;
   overflow: hidden;
-  margin: 0 auto; /* Centraliza o container na tela */
+  margin: 0 auto; /* Centraliza o container horizontalmente */
   margin-bottom: 30px;
-  transition: max-height 0.3s ease; /* Transição suave para expandir */
-  max-height: 0; /* Oculto por padrão */
 }
+
 
 .resumojogos-chart-box {
   flex: 1 1 0; /* Faz com que cada gráfico ocupe um espaço igual e se ajuste conforme o tamanho disponível */
