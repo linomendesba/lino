@@ -1250,7 +1250,7 @@ async function updateGolsChart() {
         });
     }
 
-    const last80Data = fetchedData.slice(-160); // Pega apenas os últimos 120 dados
+    const last80Data = fetchedData.slice(-240); // Pega apenas os últimos 120 dados
 
     // Armazena last80Data como uma propriedade do gráfico
     golsChart.last80Data = last80Data;
