@@ -759,7 +759,7 @@
                 return a.minuto - b.minuto;
             });
         }
-        displayData = fetchedData.slice(-140);
+        displayData = fetchedData.slice(-160);
         const labels = displayData.map(item => `${item.hora.toString().padStart(2, '0')}:${item.minuto.toString().padStart(2, '0')}`);
         const ambosMarcamData = [];
         const ambasNaoMarcamData = [];
