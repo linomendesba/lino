@@ -2119,7 +2119,7 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
                 return;
             }
     
-            displayData = fetchedData.slice(-150);
+            displayData = fetchedData.slice(-160);
             const labels = displayData.map(item => `${item.hora}:${item.minuto.toString().padStart(2, '0')}`);
             const golsData = [];
             let previousGols = initialPercentageGols;
@@ -2178,6 +2178,7 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
             type: 'line',
             data: chartData,
             options: {
+                animation: false, // Desativa as animações
                 scales: {
                     y: {
                         position: 'right',
