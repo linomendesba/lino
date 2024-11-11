@@ -137,23 +137,21 @@
         </div>
     </div>
 
-    <h2 class="titulo-resumo">Resumo dos Últimos Jogos</h2>
-    <button class="toggle-button" onclick="toggleResumo()">Mostrar Resumo</button>
-    <div id="resumojogos-charts-container">
-        <div class="resumojogos-chart-box">
-            <canvas id="resumojogosChart5"></canvas>
-        </div>
-        <div class="resumojogos-chart-box">
-            <canvas id="resumojogosChart10"></canvas>
-        </div>
-        <div class="resumojogos-chart-box">
-            <canvas id="resumojogosChart20"></canvas>
-        </div>
-        <div class="resumojogos-chart-box">
-            <canvas id="resumojogosChart40"></canvas>
-        </div>
+    <h2>Resumo dos Últimos Jogos</h2>
+<div id="resumojogos-charts-container">
+    <div class="resumojogos-chart-box">
+        <canvas id="resumojogosChart5"></canvas>
     </div>
-    
+    <div class="resumojogos-chart-box">
+        <canvas id="resumojogosChart10"></canvas>
+    </div>
+    <div class="resumojogos-chart-box">
+        <canvas id="resumojogosChart20"></canvas>
+    </div>
+    <div class="resumojogos-chart-box">
+        <canvas id="resumojogosChart40"></canvas>
+    </div>
+</div>
 
 <h2>Estatísticas de confronto</h2>
 
@@ -2579,19 +2577,6 @@ fetchData();
         
                 // Executa a função principal
                 main();
-
-                function toggleResumo() {
-                    const container = document.getElementById("resumojogos-charts-container");
-                    const button = document.querySelector(".toggle-button");
-                  
-                    if (container.style.maxHeight === "0px" || container.style.maxHeight === "") {
-                        container.style.maxHeight = "1000px"; /* Expande o container */
-                        button.textContent = "Ocultar Resumo";
-                    } else {
-                        container.style.maxHeight = "0px"; /* Oculta o container */
-                        button.textContent = "Mostrar Resumo";
-                    }
-                  }
 </script>
 </body>
 </html>
