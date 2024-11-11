@@ -495,6 +495,7 @@ canvas {
   cursor: pointer;
 }
   
+/* CSS existente */
 #resumojogos-charts-container {
   display: flex;
   justify-content: center; /* Centraliza os gráficos horizontalmente */
@@ -503,6 +504,8 @@ canvas {
   gap: 10px;
   overflow: hidden;
   margin-bottom: 30px;
+  transition: max-height 0.3s ease; /* Transição suave para expandir */
+  max-height: 0; /* Oculto por padrão */
 }
 
 .resumojogos-chart-box {
@@ -511,5 +514,21 @@ canvas {
   height: 300px;
   max-width: calc(100% - 20px); /* Garante que os gráficos não ultrapassem a largura do container */
   flex-shrink: 0; /* Impede que os gráficos encolham em telas menores */
+}
+
+/* Estilo do botão */
+.toggle-button {
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  display: block;
+  margin: 0 auto; /* Centraliza o botão */
+  margin-bottom: 10px;
+}
+
+.toggle-button:focus {
+  outline: none;
 }
 
