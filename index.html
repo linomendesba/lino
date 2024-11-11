@@ -2414,7 +2414,7 @@ fetchData();
             async function fetchResumojogosResultados() {
                 const response = await fetch('https://servidorbetano.up.railway.app/resultados/Taça%20Glória%20eterna');
                 const data = await response.json();
-                return data.reverse(); // Organiza os jogos mais recentes no início do array
+                return data.slice(-40).reverse(); // Organiza os jogos mais recentes no início do array
             }
     
             // Função para calcular as estatísticas
