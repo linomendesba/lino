@@ -1150,6 +1150,7 @@ const golsChart = new Chart(ctxGols, {
     type: 'bar', // Tipo de gráfico definido como 'bar'
     data: golsChartData,
     options: {
+        animation: false, // Desativa as animações
         scales: {
             y: {
                 position: 'right', // Mova os rótulos do eixo Y para a direita
@@ -1249,7 +1250,7 @@ async function updateGolsChart() {
         });
     }
 
-    const last80Data = fetchedData.slice(-120); // Pega apenas os últimos 120 dados
+    const last80Data = fetchedData.slice(-160); // Pega apenas os últimos 120 dados
 
     // Armazena last80Data como uma propriedade do gráfico
     golsChart.last80Data = last80Data;
