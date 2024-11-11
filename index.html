@@ -319,7 +319,7 @@
     <canvas id="golsplus" width="1600" height="300"></canvas>
 
     <div class="chart-container">
-        <canvas id="myChart" width="1600" height="300"></canvas> <!-- Gráfico existente -->
+        <canvas id="myChart" width="1600" height="400"></canvas> <!-- Gráfico existente -->
     </div>
 
     <!-- vídeo -->
@@ -759,7 +759,7 @@
                 return a.minuto - b.minuto;
             });
         }
-        displayData = fetchedData.slice(-150);
+        displayData = fetchedData.slice(-140);
         const labels = displayData.map(item => `${item.hora.toString().padStart(2, '0')}:${item.minuto.toString().padStart(2, '0')}`);
         const ambosMarcamData = [];
         const ambasNaoMarcamData = [];
@@ -1071,12 +1071,13 @@ for (let i = 0; i < displayData.length; i++) {
     type: 'line',
     data: chartData,
     options: {
+        animation: false, // Desativa as animações
         scales: {
             y: {
                 
                 position: 'right',
                 ticks: {
-                    //stepSize: 5, // Define o intervalo dos ticks no eixo Y
+                    stepSize: 5, // Define o intervalo dos ticks no eixo Y
                     color: 'white'
                 },
                 grid: {
