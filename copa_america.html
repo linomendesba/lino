@@ -748,7 +748,7 @@
                 return a.minuto - b.minuto;
             });
         }
-        displayData = fetchedData.slice(-150);
+        displayData = fetchedData.slice(-160);
         const labels = displayData.map(item => `${item.hora.toString().padStart(2, '0')}:${item.minuto.toString().padStart(2, '0')}`);
         const ambosMarcamData = [];
         const ambasNaoMarcamData = [];
@@ -1237,7 +1237,7 @@ async function updateGolsChart() {
         });
     }
 
-    const last80Data = fetchedData.slice(-120); // Pega apenas os últimos 120 dados
+    const last80Data = fetchedData.slice(-240); // Pega apenas os últimos 120 dados
 
     // Armazena last80Data como uma propriedade do gráfico
     golsChart.last80Data = last80Data;
@@ -1309,7 +1309,7 @@ async function updateGolsChart() {
         });
     }
 
-    const last80Data = uniqueData.slice(-150); // Pega apenas os últimos 80 dados
+    const last80Data = uniqueData.slice(-160); // Pega apenas os últimos 80 dados
 
     // Armazena last80Data como uma propriedade do gráfico
     golsChart.last80Data = last80Data;
@@ -2106,7 +2106,7 @@ function createOrUpdatePizzaChart(chart, ctx, data, labels, colors) {
                 return;
             }
     
-            displayData = fetchedData.slice(-150);
+            displayData = fetchedData.slice(-160);
             const labels = displayData.map(item => `${item.hora}:${item.minuto.toString().padStart(2, '0')}`);
             const golsData = [];
             let previousGols = initialPercentageGols;
