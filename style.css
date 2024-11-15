@@ -1,6 +1,6 @@
 body {
   font-family: 'Roboto', Arial, sans-serif;
-  margin: 20px;
+  margin: 50px;
   background-color: #1c1f26;
   color: #ffffff;
   font-weight: 200; /* Negrito */
@@ -8,7 +8,7 @@ body {
 
 h2 {
   text-align: center;
-  color: #fffbfb;
+  color: #37a25c;
   
 }
 
@@ -80,7 +80,6 @@ header {
   position: fixed;
   top: 0;
   left: 0;
-  padding: 10px 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -125,7 +124,7 @@ header {
 }
 
 body {
-  padding-top: 80px; /* Ajuste conforme a altura do header */
+  padding-top: 15px; /* Ajuste conforme a altura do header */
 }
 
 /* Links dentro do seletor (opções) ao passar o mouse */
@@ -472,7 +471,7 @@ p {
 .publicidade-container {
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   max-width: 100%; /* Limita a largura do contêiner */
   padding: 0 16px; /* Adiciona um padding nas laterais */
   margin: 0 auto; /* Centraliza horizontalmente */
@@ -481,7 +480,7 @@ p {
 }
 
 .publicidade-container a img {
-  width: 24vw;
+  width: 18vw;
   height: auto;
   border-radius: 15px;
   transition: transform 0.3s ease; /* Suaviza a transição do zoom */
