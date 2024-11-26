@@ -15,7 +15,7 @@ h2 {
 
 table {
   width: 100%;
-  font-size: 15px;
+  font-size: 12px;
   border-collapse: collapse;
   margin: auto;
   background-color: #1c1f26;
@@ -24,7 +24,7 @@ table {
 }
 
 th, td {
-  border: 1px solid #606266;
+  border: 1px solid #ffffff86;
   padding: 10px;
   text-align: center;
 }
@@ -628,7 +628,7 @@ canvas {
 
   /* Ajustes nas tabelas */
   table {
-    font-size: 10px;
+    font-size: 8px;
     margin-bottom: 20px;
   }
 
@@ -833,4 +833,91 @@ font-size: 20px;
   color: #fc0019;
 }
 
+.minutofixo-green {
+  background-color: #026605; /* Verde */
+}
+.minutofixo-red {
+  background-color: #be0e01; /* Vermelho */
+}
+.minutofixo-yellow {
+  background-color: #02a507; /* Amarelo */
+}
 
+/* Responsividade para telas pequenas (modo paisagem em celulares) */
+@media (max-width: 768px) and (orientation: landscape) {
+  .minutofixo-header {
+      font-size: 1.1em;
+  }
+
+  .minutofixo-header + table {
+      width: 100%;
+      display: block;
+      overflow-x: auto; /* Tabela rolável horizontalmente */
+      white-space: nowrap; /* Impede quebra de conteúdo */
+  }
+
+  .minutofixo-header + table th,
+  .minutofixo-header + table td {
+      font-size: 8px;
+      padding: 6px;
+  }
+}
+
+/* Ajustes adicionais para telas muito pequenas (dispositivos móveis menores) */
+@media (max-width: 480px) and (orientation: landscape) {
+  .minutofixo-header {
+      font-size: 1em;
+  }
+
+  .minutofixo-header + table th,
+  .minutofixo-header + table td {
+      font-size: 8px;
+      padding: 4px;
+  }
+
+  .minutofixo-header + table {
+      font-size: 8px;
+  }
+}
+
+
+
+/* Estilo para os minutos selecionados */
+.selected {
+  cursor: pointer;
+  background-color: #f5ed05bd; /* Cor verde claro para os minutos selecionados */
+}
+
+
+.minutofixo-header {
+  display: flex; /* Utiliza flexbox para alinhar os itens em linha */
+  justify-content: center; /* Centraliza os itens horizontalmente */
+  align-items: center; /* Alinha os itens verticalmente */
+  gap: 10px; /* Espaçamento entre os itens (opcional) */
+}
+
+#market-percentages {
+  display: inline-block; /* Garante que o bloco de porcentagens seja exibido de forma inline */
+  margin-right: 20px; /* Espaço entre as porcentagens e o botão */
+}
+
+#clear-selection-btn {
+  padding: 5px 10px; /* Adiciona algum padding ao botão para melhorar o visual */
+  font-size: 14px; /* Ajusta o tamanho da fonte do botão */
+  cursor: pointer; /* Muda o cursor para pointer ao passar o mouse */
+}
+
+
+
+
+.placar-selecionado {
+
+  border-radius: 8px;
+  background-color: rgba(24, 24, 23, 0.726) !important;
+  font-weight: bold;
+}
+
+
+.placar:hover .tooltip {
+  display: block;
+}
