@@ -24,7 +24,7 @@ table {
 }
 
 th, td {
-  border: 1px solid #ffffff86;
+  border: 1px solid #444950;
   padding: 10px;
   text-align: center;
 }
@@ -55,7 +55,7 @@ th {
   transform: translateX(-50%); /* Centraliza horizontalmente */
   opacity: 0;
   transition: opacity 0.3s;
-  font-size: 15px; /* Ajuste o tamanho da fonte conforme necessÃ¡rio */
+  font-size: 13px; /* Ajuste o tamanho da fonte conforme necessÃ¡rio */
   white-space: nowrap; /* Garante que o texto fique em uma Ãºnica linha */
 }
 
@@ -371,7 +371,7 @@ canvas {
 
 .maximaplacar-td {
   background-color: #101318;
-  font-size: 15px;
+  font-size: 12px;
 }
 
 .maximamercado-th {
@@ -725,7 +725,7 @@ canvas {
 
   /* Ajustes nos tooltips */
   .tooltip {
-    font-size: 12px;
+    font-size: 10px;
     padding: 3px;
   }
 }
@@ -920,4 +920,10 @@ font-size: 20px;
 
 .placar:hover .tooltip {
   display: block;
+}
+
+.selector-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
