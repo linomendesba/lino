@@ -1102,7 +1102,7 @@ async function fetchRankingAndUpcomingMatches() {
         // Fetch both endpoints concurrently
         const [rankingResponse, upcomingResponse] = await Promise.all([
             fetch('https://betstat.site/resultados/Ta%C3%A7a%20Gl%C3%B3ria%20eterna'),
-            fetch('https://betstat.site/resultados/taca-gloria-eterna')
+            fetch('https://betstat.site/proximos/taca-gloria-eterna')
         ]);
 
         const rankingData = await rankingResponse.json();
@@ -1460,7 +1460,7 @@ window.onload = fetchRankingAndUpcomingMatches;
 <script>
 
 const URL_API_RESULTADOS = 'https://betstat.site/resultados/Ta%C3%A7a%20Gl%C3%B3ria%20eterna';
-const URL_API_PROXIMOS = 'https://betstat.site/resultados/taca-gloria-eterna';
+const URL_API_PROXIMOS = 'https://betstat.site/proximos/taca-gloria-eterna';
 
 
 let ultimosResultados = [];
@@ -2728,7 +2728,7 @@ document.addEventListener('DOMContentLoaded', iniciarAtualizacaoAutomatica);
 
 <script>
 const API_URL = 'https://betstat.site/resultados/Ta%C3%A7a%20Gl%C3%B3ria%20eterna';
-const PROXIMOS_JOGOS_URL = 'https://betstat.site/resultados/taca-gloria-eterna';
+const PROXIMOS_JOGOS_URL = 'https://betstat.site/proximos/taca-gloria-eterna';
 
 async function carregarJogos() {
   try {
