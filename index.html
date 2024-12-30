@@ -111,7 +111,7 @@
               </tbody>
             </table>
 
-            <div id="data"></div>
+            <div id="data2"></div>
 
     <div id="market-selector">
         <label for="market">🏆 Ranking Top 10 </label>
@@ -3015,7 +3015,7 @@ atualizarAnálise();
         function atualizarDados() {
             fetch('ttps://betstat.site/proximos/taca-gloria-eterna')
                 .then(response => response.json())
-                .then(data => {
+                .then(data2 => {
                     const primeiroDado = data[0]; // Pegando o primeiro dado
 
                     const container = document.getElementById('data');
