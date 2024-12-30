@@ -3009,7 +3009,7 @@ atualizarAnálise();
            // Função para calcular a probabilidade com base na odd
            function calcularProbabilidade(odd) {
             const prob = (1 / odd * 100).toFixed(2);
-            const emoji = prob > 50 ? '👍🏻' : '👎🏻';
+            const emoji = prob > 50 ? '🟢' : '🔴';
             return { texto: `${prob}% ${emoji}`, cor: prob > 50 ? '#1a5c9e' : '#5e1f7d' };
         }
 
