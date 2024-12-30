@@ -99,7 +99,8 @@
 
     <div class="container" id="mainContainer"></div>
 
-   
+    <div id="data"></div>
+     
             <table id="time-tabela-resultados">
               <thead>
                 <tr>
@@ -111,7 +112,7 @@
               </tbody>
             </table>
 
-            <div id="data"></div>
+  
 
     <div id="market-selector">
         <label for="market">🏆 Ranking Top 10 </label>
@@ -3009,7 +3010,7 @@ atualizarAnálise();
            function calcularProbabilidade(odd) {
             const prob = (1 / odd * 100).toFixed(2);
             const emoji = prob > 50 ? '👍🏻' : '👎🏻';
-            return { texto: `${prob}% ${emoji}`, cor: prob > 50 ? '#018b06' : '#be0e02' };
+            return { texto: `${prob}% ${emoji}`, cor: prob > 50 ? '#d3d3d3' : '#696969' };
         }
 
         function atualizarDados() {
