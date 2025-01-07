@@ -244,6 +244,21 @@
             </table>
         </div>
 
+        <div class="placarrepet-table-container">
+            <h1>Top 20 Placares Mais Repetidos</h1>
+            <table class="placarrepet-table">
+                <thead>
+                    <tr class="placarrepet-header">
+                        <th>Placar</th>
+                        <th>Repetições</th>
+                    </tr>
+                </thead>
+                <tbody id="placarrepet-resultados">
+                    <!-- Linhas da tabela serão geradas dinamicamente -->
+                </tbody>
+            </table>
+        </div>
+
         <div class="buscador-container">
             <div>
               <input type="text" id="buscador-placar" class="buscador-input" placeholder="Placar (Ex: 0x1)">
@@ -2271,6 +2286,69 @@ initializeChart();
     
     setInterval(fetchData, 5000);
     fetchData();
+    </script>
+
+    <script>
+        (function() {
+    let previousDataHash = '';
+
+    async function fetchData() {
+        try {
+            const response = await fetch('https://betstat.site/resultados/Ta%C3%A7a%20Gl%C3%B3ria%20eterna');
+            const data = await response.json();
+
+            // Gera um hash dos últimos 480 resultados
+            const dataHash = JSON.stringify(data.slice(-480));
+            if (dataHash === previousDataHash) return; // Sai se os dados não mudaram
+            previousDataHash = dataHash;
+
+            // Pega os últimos 480 resultados
+            const recentData = data.slice(-480);
+
+            // Conta a frequência de cada placar
+            const placarCounts = {};
+            recentData.forEach(jogo => {
+                const placar = jogo.ft;
+                if (!placarCounts[placar]) {
+                    placarCounts[placar] = 0;
+                }
+                placarCounts[placar]++;
+            });
+
+            // Ordena os placares pelos mais frequentes e pega os 20 principais
+            const sortedPlacarCounts = Object.entries(placarCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 20);
+
+            // Atualiza a tabela na página
+            const tableBody = document.getElementById('placarrepet-resultados');
+            tableBody.innerHTML = ""; // Limpa o conteúdo anterior da tabela
+
+            sortedPlacarCounts.forEach(([placar, count]) => {
+                const row = document.createElement('tr');
+
+                const placarCell = document.createElement('td');
+                placarCell.textContent = placar;
+                placarCell.classList.add('placarrepet-td');
+
+                const countCell = document.createElement('td');
+                countCell.textContent = count;
+                countCell.classList.add('placarrepet-td');
+
+                row.appendChild(placarCell);
+                row.appendChild(countCell);
+                tableBody.appendChild(row);
+            });
+        } catch (error) {
+            console.error("Erro ao buscar os dados:", error);
+        }
+    }
+
+    // Atualiza os dados a cada 5 segundos
+    setInterval(fetchData, 5000);
+    fetchData();
+})();
+
     </script>
     
     <script>
