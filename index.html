@@ -245,19 +245,18 @@
         </div>
 
         <div class="placarrepet-table-container">
-            <h1>Top 20 Placares Mais Repetidos</h1>
             <table class="placarrepet-table">
                 <thead>
-                    <tr class="placarrepet-header">
-                        <th>Placar</th>
-                        <th>Repetições</th>
+                    <tr id="placarrepet-header">
+                        <!-- Os cabeçalhos dos placares serão gerados dinamicamente -->
                     </tr>
                 </thead>
                 <tbody id="placarrepet-resultados">
-                    <!-- Linhas da tabela serão geradas dinamicamente -->
+                    <!-- Os valores das repetições serão gerados dinamicamente -->
                 </tbody>
             </table>
         </div>
+        
 
         <div class="buscador-container">
             <div>
@@ -2289,7 +2288,7 @@ initializeChart();
     </script>
 
     <script>
-        (function() {
+(function () {
     let previousDataHash = '';
 
     async function fetchData() {
@@ -2320,24 +2319,32 @@ initializeChart();
                 .sort((a, b) => b[1] - a[1])
                 .slice(0, 20);
 
-            // Atualiza a tabela na página
+            // Atualiza os cabeçalhos da tabela
+            const headerRow = document.getElementById('placarrepet-header');
+            if (headerRow.children.length === 0) {
+                sortedPlacarCounts.forEach(([placar]) => {
+                    const th = document.createElement('th');
+                    th.textContent = placar;
+                    th.classList.add('placarrepet-th');
+                    headerRow.appendChild(th);
+                });
+            }
+
+            // Atualiza os valores na tabela
             const tableBody = document.getElementById('placarrepet-resultados');
-            tableBody.innerHTML = ""; // Limpa o conteúdo anterior da tabela
+            let row = tableBody.querySelector('tr');
+            if (!row) {
+                row = document.createElement('tr');
+                tableBody.appendChild(row);
+            } else {
+                row.innerHTML = ""; // Limpa a linha existente
+            }
 
             sortedPlacarCounts.forEach(([placar, count]) => {
-                const row = document.createElement('tr');
-
-                const placarCell = document.createElement('td');
-                placarCell.textContent = placar;
-                placarCell.classList.add('placarrepet-td');
-
-                const countCell = document.createElement('td');
-                countCell.textContent = count;
-                countCell.classList.add('placarrepet-td');
-
-                row.appendChild(placarCell);
-                row.appendChild(countCell);
-                tableBody.appendChild(row);
+                const td = document.createElement('td');
+                td.textContent = count;
+                td.classList.add('placarrepet-td');
+                row.appendChild(td);
             });
         } catch (error) {
             console.error("Erro ao buscar os dados:", error);
@@ -2348,7 +2355,6 @@ initializeChart();
     setInterval(fetchData, 5000);
     fetchData();
 })();
-
     </script>
     
     <script>
