@@ -1253,12 +1253,20 @@ canvas {
 .placarrepet-table thead tr th {
   background-color: #ffffff;
   color: #fe3c00;
+  padding: 12px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 /* Estilo para as células de dados (td) */
 .placarrepet-table tbody tr td {
   background-color: #151810;
   color: #fff;
+  padding: 12px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 .maximaplacar-proximidade {
