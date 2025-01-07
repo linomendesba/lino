@@ -1845,7 +1845,7 @@ updateChart();
                     </div>
                     <div class="stats-row">
                         <span class="stats-label">Sugestões de mercado:</span>
-                        <span class="stats-value" style="color: #28a745;">${suggestedMarkets.join(', ')}</span>
+                        <span class="stats-value" style="color: #ffc107;">${suggestedMarkets.join(', ')}</span>
                     </div>
                 </div>
                 ${confrontos.slice(0, 10).map(match => `
@@ -1866,9 +1866,9 @@ updateChart();
         const markets = [];
     
         if (stats.ambasSim > stats.ambasNao) {
-            markets.push('Ambas marcam (Sim)');
+            markets.push('Ambas(Sim)');
         } else {
-            markets.push('Ambas marcam (Não)');
+            markets.push('Ambas(Não)');
         }
     
         if (stats.over25 > stats.under25) {
