@@ -224,7 +224,8 @@ select:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 10;
+  margin-top: 20px;
 }
 
 #market {
@@ -1285,3 +1286,6 @@ canvas {
       ::-webkit-scrollbar-thumb:hover {
           background: #ff5722;
       }
+
+
+      
