@@ -1249,14 +1249,14 @@ canvas {
   animation: piscar 1s infinite; /* Animação de piscar suave com duração de 3 segundos */
 }
 
-.placarrepet-header {
+.placarrepet-table {
   background-color: #ffffff;
   color: #fe3c00;
   font-weight: 1000;  
   font-size: 15px;  
 }
 
-.placarrepet-resultados{
+.placarrepet-table {
   background-color: #151810;
   font-size: 12px;
 }
